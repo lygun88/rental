@@ -1,1513 +1,2025 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개인사업자 장기렌트 절세 계산기</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --blue:#2563eb;
+  --blue2:#1d4ed8;
+  --navy:#142b4a;
+  --bg:#f5f7fb;
+  --white:#fff;
+  --text:#172033;
+  --sub:#667085;
+  --line:#e4e7ec;
+  --green:#067647;
+  --greenbg:#ecfdf3;
+  --orange:#b54708;
+  --orangebg:#fffaeb;
+  --red:#b42318;
+  --redbg:#fef3f2;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif;
+}
+
+.wrap{
+  width:min(1140px,calc(100% - 24px));
+  margin:24px auto 60px;
+}
+
+.hero{
+  padding:28px;
+  color:white;
+  border-radius:22px;
+  background:linear-gradient(135deg,#132d50,#2563a9);
+  margin-bottom:18px;
+}
+
+.hero h1{
+  margin:0 0 8px;
+  font-size:clamp(26px,4vw,38px);
+  letter-spacing:-1.3px;
+}
+
+.hero p{
+  margin:0;
+  color:#dbeafe;
+  line-height:1.6;
+  font-size:14px;
+}
+
+.boot{
+  margin-top:14px;
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.14);
+  font-size:11px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  align-items:start;
+}
+
+.card{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 8px 24px rgba(16,24,40,.06);
+}
+
+.input-card{
+  padding:20px;
+}
+
+.title{
+  display:flex;
+  gap:9px;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.num{
+  width:29px;
+  height:29px;
+  border-radius:9px;
+  background:var(--navy);
+  color:white;
+  display:grid;
+  place-items:center;
+  font-size:12px;
+  font-weight:800;
+}
+
+.title h2{
+  margin:0;
+  font-size:20px;
+}
+
+.group{
+  border-top:1px solid var(--line);
+  padding:17px 0;
+}
+
+.group:first-of-type{
+  border-top:0;
+  padding-top:0;
+}
+
+.group-name{
+  margin-bottom:11px;
+  font-size:13px;
+  font-weight:800;
+}
+
+.fields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+label{
+  font-size:12px;
+  color:#344054;
+  font-weight:700;
+}
+
+select{
+  width:100%;
+  height:47px;
+  padding:0 11px;
+  border:1px solid #d0d5dd;
+  background:white;
+  border-radius:11px;
+  color:var(--text);
+  font-size:14px;
+}
+
+select:focus{
+  outline:none;
+  border-color:#84adff;
+  box-shadow:0 0 0 3px rgba(37,99,235,.1);
+}
+
+.help{
+  font-size:11px;
+  line-height:1.45;
+  color:var(--sub);
+}
+
+.changed{
+  display:none;
+  padding:10px 12px;
+  margin:5px 0 10px;
+  border-radius:10px;
+  background:var(--orangebg);
+  color:var(--orange);
+  font-size:11px;
+  font-weight:700;
+}
+
+.changed.show{
+  display:block;
+}
+
+.buttons{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:9px;
+}
+
+button{
+  cursor:pointer;
+}
+
+.calc{
+  border:0;
+  height:54px;
+  border-radius:12px;
+  background:var(--blue);
+  color:white;
+  font-size:16px;
+  font-weight:900;
+}
+
+.calc:hover{
+  background:var(--blue2);
+}
+
+.reset{
+  height:54px;
+  border-radius:12px;
+  background:white;
+  border:1px solid #d0d5dd;
+  padding:0 18px;
+  color:#475467;
+  font-weight:700;
+}
+
+/* 결과 */
+
+.result-card{
+  overflow:hidden;
+  min-height:560px;
+}
+
+.result-head{
+  padding:20px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.status{
+  color:var(--sub);
+  font-size:11px;
+}
+
+.empty{
+  min-height:475px;
+  display:grid;
+  place-items:center;
+  padding:30px;
+  text-align:center;
+}
+
+.empty-icon{
+  width:64px;
+  height:64px;
+  margin:auto;
+  border-radius:20px;
+  background:#eff6ff;
+  color:var(--blue);
+  display:grid;
+  place-items:center;
+  font-size:28px;
+  font-weight:900;
+}
+
+.empty h3{
+  margin:14px 0 5px;
+}
+
+.empty p{
+  margin:0;
+  color:var(--sub);
+  font-size:12px;
+}
+
+.result-content{
+  display:none;
+}
+
+.result-content.show{
+  display:block;
+}
+
+.main-saving{
+  padding:23px 20px;
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(#f5faff,#fff);
+}
+
+.main-saving .label{
+  font-size:12px;
+  color:#475467;
+  font-weight:700;
+}
+
+.main-saving .value{
+  color:var(--blue);
+  font-size:43px;
+  font-weight:900;
+  letter-spacing:-2px;
+  margin:3px 0;
+}
+
+.main-saving .range{
+  font-size:11px;
+  color:var(--sub);
+}
+
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+  padding:14px 16px;
+}
+
+.kpi{
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:13px;
+}
+
+.kpi.good{
+  background:var(--greenbg);
+  border-color:#abefc6;
+}
+
+.kpi span{
+  display:block;
+  font-size:10px;
+  color:var(--sub);
+}
+
+.kpi strong{
+  display:block;
+  margin-top:3px;
+  font-size:19px;
+}
+
+.kpi.good strong{
+  color:var(--green);
+}
+
+.kpi small{
+  display:block;
+  margin-top:3px;
+  color:var(--sub);
+  font-size:9px;
+}
+
+.verdict{
+  margin:0 16px 14px;
+  padding:13px;
+  border-radius:12px;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.verdict strong{
+  display:block;
+  font-size:13px;
+  margin-bottom:2px;
+}
+
+.verdict.green{
+  background:var(--greenbg);
+  color:#05603a;
+}
+
+.verdict.orange{
+  background:var(--orangebg);
+  color:#93370d;
+}
+
+.verdict.red{
+  background:var(--redbg);
+  color:var(--red);
+}
+
+.details{
+  padding:0 16px 18px;
+}
+
+.detail{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:9px 0;
+  font-size:11px;
+  border-bottom:1px dashed var(--line);
+}
+
+.detail:last-child{
+  border-bottom:0;
+}
+
+.detail span{
+  color:var(--sub);
+}
+
+.detail strong{
+  text-align:right;
+}
+
+/* 비교 */
+
+.compare{
+  margin-top:18px;
+  padding:20px;
+  display:none;
+}
+
+.compare h2{
+  margin:0;
+  font-size:19px;
+}
+
+.compare p{
+  margin:4px 0 12px;
+  color:var(--sub);
+  font-size:11px;
+}
+
+.table-wrap{
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+
+table{
+  width:100%;
+  min-width:720px;
+  border-collapse:collapse;
+  font-size:11px;
+}
+
+th,td{
+  padding:10px;
+  border-bottom:1px solid var(--line);
+  text-align:right;
+  white-space:nowrap;
+}
+
+th{
+  background:#f8fafc;
+  color:#475467;
+}
+
+th:first-child,
+td:first-child{
+  text-align:left;
+}
+
+.selected-row{
+  background:#eff6ff;
+}
+
+.tag{
+  display:inline-block;
+  margin-left:4px;
+  padding:2px 6px;
+  border-radius:999px;
+  background:#dbeafe;
+  color:#1d4ed8;
+  font-size:9px;
+  font-weight:800;
+}
+
+/* 최적 추천 */
+
+.best{
+  display:none;
+  overflow:hidden;
+  margin-top:18px;
+  border:2px solid #bfdbfe;
+}
+
+.best-head{
+  padding:20px;
+  background:linear-gradient(135deg,#eff6ff,#fff);
+}
+
+.best-badge{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:999px;
+  background:var(--blue);
+  color:white;
+  font-size:9px;
+  font-weight:900;
+}
+
+.best-head h2{
+  margin:6px 0 3px;
+  font-size:21px;
+}
+
+.best-head p{
+  margin:0;
+  color:var(--sub);
+  font-size:11px;
+}
+
+.best-body{
+  padding:18px 20px;
+}
+
+.best-main{
+  padding:17px;
+  border-radius:14px;
+  background:var(--navy);
+  color:white;
+}
+
+.best-main span{
+  color:#bfdbfe;
+  font-size:10px;
+}
+
+.best-main strong{
+  display:block;
+  margin-top:2px;
+  font-size:29px;
+}
+
+.best-main small{
+  color:#dbeafe;
+  font-size:10px;
+}
+
+.best-kpis{
+  margin-top:10px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+}
+
+.best-kpi{
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px;
+}
+
+.best-kpi span{
+  display:block;
+  color:var(--sub);
+  font-size:9px;
+}
+
+.best-kpi strong{
+  display:block;
+  margin-top:3px;
+  font-size:17px;
+}
+
+.reason{
+  margin-top:11px;
+  padding:13px;
+  border-radius:12px;
+  background:var(--greenbg);
+  color:#05603a;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.reason strong{
+  display:block;
+  font-size:12px;
+}
+
+.current-compare{
+  margin-top:9px;
+  padding:11px;
+  border-radius:10px;
+  background:#f8fafc;
+  font-size:10px;
+  color:#475467;
+}
+
+/* 규칙 */
+
+.rules{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.rule{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+}
+
+.rule b{
+  color:var(--blue);
+  font-size:10px;
+}
+
+.rule h3{
+  margin:4px 0;
+  font-size:14px;
+}
+
+.rule p{
+  margin:0;
+  font-size:10px;
+  line-height:1.5;
+  color:var(--sub);
+}
+
+.notice{
+  margin-top:18px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:white;
+  padding:14px;
+  color:var(--sub);
+  font-size:10px;
+  line-height:1.6;
+}
+
+@media(max-width:850px){
+  .grid{grid-template-columns:1fr}
+  .result-card{min-height:0}
+  .empty{min-height:260px}
+}
+
+@media(max-width:560px){
+  .wrap{margin-top:12px}
+  .hero{padding:21px 17px}
+  .fields{grid-template-columns:1fr}
+  .full{grid-column:auto}
+  .buttons{grid-template-columns:1fr}
+  .reset{height:43px}
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpi:last-child{grid-column:1/-1}
+  .best-kpis{grid-template-columns:1fr}
+  .rules{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <section class="hero">
+    <h1>태웅이의 장기렌트, 실제로 얼마가 절세될까?</h1>
+    <p>
+      과세표준과 렌트 조건을 선택하면 현금지출, 필요경비 인정액,
+      예상 절세액과 세후 실부담을 비교하고 가장 효율적인 렌트료 구간을 추천합니다.
+    </p>
+    <div class="boot" id="bootStatus">페이지 로드 완료 · 계산기 준비 중</div>
+  </section>
+
+  <div class="grid">
+
+    <!-- 입력 -->
+    <section class="card input-card">
+
+      <div class="title">
+        <div class="num">1</div>
+        <h2>조건 선택</h2>
+      </div>
+
+      <div class="group">
+        <div class="group-name">소득 조건</div>
+
+        <div class="fields">
+          <div class="field full">
+            <label for="taxBand">차량비 반영 전 예상 종합소득 과세표준</label>
+
+            <select id="taxBand">
+              <option value="0">1,400만원 이하</option>
+              <option value="1">1,400만원 초과 ~ 5,000만원 이하</option>
+              <option value="2">5,000만원 초과 ~ 8,800만원 이하</option>
+              <option value="3" selected>8,800만원 초과 ~ 1억5,000만원 이하</option>
+              <option value="4">1억5,000만원 초과 ~ 3억원 이하</option>
+              <option value="5">3억원 초과 ~ 5억원 이하</option>
+              <option value="6">5억원 초과 ~ 10억원 이하</option>
+              <option value="7">10억원 초과</option>
+            </select>
+
+            <div class="help">
+              정확한 금액 대신 선택한 구간의 대표값을 사용합니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+
+        <div class="group-name">렌트 및 차량비</div>
+
+        <div class="fields">
+
+          <div class="field">
+            <label for="rentBand">월 장기렌트료</label>
+
+            <select id="rentBand">
+              <option value="0">40 ~ 60만원</option>
+              <option value="1">60 ~ 80만원</option>
+              <option value="2" selected>80 ~ 100만원</option>
+              <option value="3">100 ~ 120만원</option>
+              <option value="4">120 ~ 150만원</option>
+              <option value="5">150 ~ 200만원</option>
+              <option value="6">200 ~ 250만원</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="otherBand">월 기타 차량 관련비용</label>
+
+            <select id="otherBand">
+              <option value="0">0 ~ 10만원</option>
+              <option value="1" selected>10 ~ 20만원</option>
+              <option value="2">20 ~ 30만원</option>
+              <option value="3">30 ~ 50만원</option>
+              <option value="4">50 ~ 80만원</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="months">이번 과세기간 사용개월</label>
+
+            <select id="months">
+              <option value="12" selected>12개월</option>
+              <option value="11">11개월</option>
+              <option value="10">10개월</option>
+              <option value="9">9개월</option>
+              <option value="8">8개월</option>
+              <option value="7">7개월</option>
+              <option value="6">6개월</option>
+              <option value="5">5개월</option>
+              <option value="4">4개월</option>
+              <option value="3">3개월</option>
+              <option value="2">2개월</option>
+              <option value="1">1개월</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="record">운행기록 / 업무사용비율</label>
+
+            <select id="record">
+              <option value="none" selected>운행기록 미작성</option>
+              <option value="1">운행기록 작성 · 업무 100%</option>
+              <option value="0.8">운행기록 작성 · 업무 80%</option>
+              <option value="0.6">운행기록 작성 · 업무 60%</option>
+              <option value="0.4">운행기록 작성 · 업무 40%</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <div class="help">
+              기타 차량비는 유류비·통행료 등의 예상액입니다.
+              렌트료에 포함된 보험·정비비는 중복 입력하지 않는 것을 전제로 합니다.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="group">
+
+        <div class="group-name">업무용 승용차 조건</div>
+
+        <div class="fields">
+
+          <div class="field">
+            <label for="carCount">사업용 승용차 보유상태</label>
+
+            <select id="carCount">
+              <option value="first" selected>이 차량이 첫 1대</option>
+              <option value="extra">기존 차량이 있고 추가 차량</option>
+            </select>
+          </div>
+
+          <div class="field" id="insuranceArea" style="display:none">
+            <label for="insurance">추가 차량 보험요건</label>
+
+            <select id="insurance">
+              <option value="yes" selected>업무전용자동차보험 요건 충족</option>
+              <option value="no">미충족 / 모름</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="changed" class="changed">
+        조건이 변경되었습니다. 계산하기를 눌러 새 조건을 반영하세요.
+      </div>
+
+      <div class="buttons">
+        <button type="button" class="calc" id="calcBtn">
+          절세효과 계산하기
+        </button>
+
+        <button type="button" class="reset" id="resetBtn">
+          초기화
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- 결과 -->
+    <section class="card result-card" id="resultCard">
+
+      <div class="result-head">
+
+        <div class="title" style="margin:0">
+          <div class="num">2</div>
+          <h2>계산 결과</h2>
+        </div>
+
+        <div class="status" id="status">
+          아직 계산 전
+        </div>
+
+      </div>
+
+      <div class="empty" id="empty">
+
+        <div>
+          <div class="empty-icon">₩</div>
+
+          <h3>조건을 선택해 주세요</h3>
+
+          <p>
+            절세효과 계산하기 버튼을 누르면 결과가 표시됩니다.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="result-content" id="resultContent">
+
+        <div class="main-saving">
+          <div class="label">예상 세금 절감액</div>
+          <div class="value" id="taxSaving">-</div>
+          <div class="range" id="taxRange">-</div>
+        </div>
+
+        <div class="kpis">
+
+          <div class="kpi">
+            <span>총 현금지출</span>
+            <strong id="cash">-</strong>
+            <small>렌트료 + 기타 차량비</small>
+          </div>
+
+          <div class="kpi">
+            <span>당해 필요경비 인정</span>
+            <strong id="deductible">-</strong>
+            <small id="deductibleRate">-</small>
+          </div>
+
+          <div class="kpi good">
+            <span>세후 실부담</span>
+            <strong id="netCost">-</strong>
+            <small id="savingRate">-</small>
+          </div>
+
+        </div>
+
+        <div class="verdict green" id="verdict"></div>
+
+        <div class="details">
+
+          <div class="detail">
+            <span>적용 업무사용비율</span>
+            <strong id="businessRate">-</strong>
+          </div>
+
+          <div class="detail">
+            <span>렌트료 중 감가상각비 상당액</span>
+            <strong id="depAmount">-</strong>
+          </div>
+
+          <div class="detail">
+            <span>당해 인정 감가상각비 상당액</span>
+            <strong id="depAllowed">-</strong>
+          </div>
+
+          <div class="detail">
+            <span>차기 이월 예상</span>
+            <strong id="depCarry">-</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <!-- 비교 -->
+  <section class="card compare" id="compareSection">
+
+    <h2>월 렌트료별 비교</h2>
+
+    <p>
+      다른 조건은 그대로 유지하고 렌트료만 변경해 비교합니다.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+
+        <thead>
+          <tr>
+            <th>월 렌트료</th>
+            <th>대표 월 렌트료</th>
+            <th>총 지출</th>
+            <th>비용 인정</th>
+            <th>예상 절세</th>
+            <th>세후 실부담</th>
+          </tr>
+        </thead>
+
+        <tbody id="compareBody"></tbody>
+
+      </table>
+    </div>
+
+  </section>
+
+
+  <!-- 최적안 -->
+  <section class="card best" id="bestSection">
+
+    <div class="best-head">
+      <span class="best-badge">BEST TAX PLAN</span>
+      <h2>가장 효율적인 절세안</h2>
+      <p>
+        절세액만 보지 않고 비용인정률과 세후 실부담,
+        업무용승용차 관련 한도를 함께 고려합니다.
+      </p>
+    </div>
+
+    <div class="best-body">
+
+      <div class="best-main">
+        <span>추천 월 장기렌트료</span>
+        <strong id="bestRent">-</strong>
+        <small id="bestComment">-</small>
+      </div>
+
+      <div class="best-kpis">
+
+        <div class="best-kpi">
+          <span>예상 절세액</span>
+          <strong id="bestSaving">-</strong>
+        </div>
+
+        <div class="best-kpi">
+          <span>세후 실부담</span>
+          <strong id="bestNet">-</strong>
+        </div>
+
+        <div class="best-kpi">
+          <span>비용인정률</span>
+          <strong id="bestRate">-</strong>
+        </div>
+
+      </div>
+
+      <div class="reason" id="bestReason"></div>
+
+      <div class="current-compare" id="bestCompare"></div>
+
+    </div>
+
+  </section>
+
+
+  <div class="rules">
+
+    <div class="rule">
+      <b>RULE 01</b>
+      <h3>장기렌트료 70%</h3>
+      <p>
+        일반 자동차대여사업자로부터 임차한 승용차는
+        임차료의 70%를 감가상각비 상당액으로 보는 방식으로 계산합니다.
+      </p>
+    </div>
+
+    <div class="rule">
+      <b>RULE 02</b>
+      <h3>연 800만원 한도</h3>
+      <p>
+        감가상각비 상당액 중 당해연도 인정한도를 적용하고
+        초과분은 이월하는 구조를 반영합니다.
+      </p>
+    </div>
+
+    <div class="rule">
+      <b>RULE 03</b>
+      <h3>연 1,500만원 기준</h3>
+      <p>
+        운행기록을 작성하지 않은 경우의 업무사용비율 계산기준을
+        반영합니다.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="notice">
+    본 계산기는 개인사업자의 일반적인 업무용 승용차 장기렌트에 대한
+    의사결정용 추정치입니다. 실제 세액은 소득구조, 장부유형, 차량종류,
+    보험요건, 세액공제·감면 등에 따라 달라질 수 있습니다.
+  </div>
+
+</div>
+
+
 <script>
-(function () {
-  "use strict";
+"use strict";
 
-  const TAX_BANDS = [
-    [350, 700, 1050],
-    [2300, 3200, 4100],
-    [5950, 6900, 7850],
-    [10350, 11900, 13450],
-    [18750, 22500, 26250],
-    [35000, 40000, 45000],
-    [62500, 75000, 87500],
-    [105000, 125000, 150000]
-  ];
 
-  const RENT = [
-    [40, 60],
-    [60, 80],
-    [80, 100],
-    [100, 120],
-    [120, 150],
-    [150, 200],
-    [200, 250]
-  ];
+const TAX_BANDS = [
+  [350,700,1050],
+  [2300,3200,4100],
+  [5950,6900,7850],
+  [10350,11900,13450],
+  [18750,22500,26250],
+  [35000,40000,45000],
+  [62500,75000,87500],
+  [105000,125000,150000]
+];
 
-  const OTHER = [
-    [0, 10],
-    [10, 20],
-    [20, 30],
-    [30, 50],
-    [50, 80]
-  ];
 
-  function $(id) {
-    return document.getElementById(id);
+const RENT_BANDS = [
+  [40,60],
+  [60,80],
+  [80,100],
+  [100,120],
+  [120,150],
+  [150,200],
+  [200,250]
+];
+
+
+const OTHER_BANDS = [
+  [0,10],
+  [10,20],
+  [20,30],
+  [30,50],
+  [50,80]
+];
+
+
+function get(id){
+  return document.getElementById(id);
+}
+
+
+function midpoint(arr){
+  return (arr[0] + arr[1]) / 2;
+}
+
+
+function formatMoney(value){
+
+  if(!Number.isFinite(value)){
+    return "-";
   }
 
-  function midpoint(arr) {
-    return (arr[0] + arr[1]) / 2;
+  const rounded = Math.round(value);
+
+  if(rounded >= 10000){
+    return (rounded / 10000).toLocaleString(
+      "ko-KR",
+      {maximumFractionDigits:2}
+    ) + "억원";
   }
 
-  function money(value) {
-    if (!Number.isFinite(value)) {
-      return "-";
-    }
+  return rounded.toLocaleString("ko-KR") + "만원";
+}
 
-    const rounded = Math.round(value);
 
-    if (rounded >= 10000) {
-      return (
-        (rounded / 10000).toLocaleString("ko-KR", {
-          maximumFractionDigits: 2
-        }) + "억원"
-      );
-    }
+function formatPercent(value){
 
-    return rounded.toLocaleString("ko-KR") + "만원";
+  if(!Number.isFinite(value)){
+    return "-";
   }
 
-  function pct(value) {
-    if (!Number.isFinite(value)) {
-      return "-";
-    }
+  return (value * 100).toFixed(1) + "%";
+}
 
-    return (value * 100).toFixed(1) + "%";
+
+/* 종합소득세 */
+
+function nationalIncomeTax(x){
+
+  x = Math.max(0,x);
+
+  if(x <= 1400){
+    return x * 0.06;
   }
 
-
-  /* ===========================
-     종합소득세
-  =========================== */
-
-  function incomeTax(x) {
-    x = Math.max(0, x);
-
-    if (x <= 1400) {
-      return x * 0.06;
-    }
-
-    if (x <= 5000) {
-      return 84 + (x - 1400) * 0.15;
-    }
-
-    if (x <= 8800) {
-      return 624 + (x - 5000) * 0.24;
-    }
-
-    if (x <= 15000) {
-      return 1536 + (x - 8800) * 0.35;
-    }
-
-    if (x <= 30000) {
-      return 3706 + (x - 15000) * 0.38;
-    }
-
-    if (x <= 50000) {
-      return 9406 + (x - 30000) * 0.40;
-    }
-
-    if (x <= 100000) {
-      return 17406 + (x - 50000) * 0.42;
-    }
-
-    return 38406 + (x - 100000) * 0.45;
+  if(x <= 5000){
+    return 84 + (x-1400) * 0.15;
   }
 
-
-  /* ===========================
-     개인지방소득세
-  =========================== */
-
-  function localTax(x) {
-    x = Math.max(0, x);
-
-    if (x <= 1400) {
-      return x * 0.006;
-    }
-
-    if (x <= 5000) {
-      return 8.4 + (x - 1400) * 0.015;
-    }
-
-    if (x <= 8800) {
-      return 62.4 + (x - 5000) * 0.024;
-    }
-
-    if (x <= 15000) {
-      return 153.6 + (x - 8800) * 0.035;
-    }
-
-    if (x <= 30000) {
-      return 370.6 + (x - 15000) * 0.038;
-    }
-
-    if (x <= 50000) {
-      return 940.6 + (x - 30000) * 0.040;
-    }
-
-    if (x <= 100000) {
-      return 1740.6 + (x - 50000) * 0.042;
-    }
-
-    return 3840.6 + (x - 100000) * 0.045;
+  if(x <= 8800){
+    return 624 + (x-5000) * 0.24;
   }
 
-
-  function totalTax(x) {
-    return incomeTax(x) + localTax(x);
+  if(x <= 15000){
+    return 1536 + (x-8800) * 0.35;
   }
 
+  if(x <= 30000){
+    return 3706 + (x-15000) * 0.38;
+  }
 
-  function taxSaving(taxBase, deductible) {
-    const beforeTax = totalTax(taxBase);
+  if(x <= 50000){
+    return 9406 + (x-30000) * 0.40;
+  }
 
-    const afterTax = totalTax(
-      Math.max(0, taxBase - deductible)
-    );
+  if(x <= 100000){
+    return 17406 + (x-50000) * 0.42;
+  }
 
-    return Math.max(
+  return 38406 + (x-100000) * 0.45;
+}
+
+
+/* 개인지방소득세 */
+
+function localIncomeTax(x){
+
+  x = Math.max(0,x);
+
+  if(x <= 1400){
+    return x * 0.006;
+  }
+
+  if(x <= 5000){
+    return 8.4 + (x-1400) * 0.015;
+  }
+
+  if(x <= 8800){
+    return 62.4 + (x-5000) * 0.024;
+  }
+
+  if(x <= 15000){
+    return 153.6 + (x-8800) * 0.035;
+  }
+
+  if(x <= 30000){
+    return 370.6 + (x-15000) * 0.038;
+  }
+
+  if(x <= 50000){
+    return 940.6 + (x-30000) * 0.040;
+  }
+
+  if(x <= 100000){
+    return 1740.6 + (x-50000) * 0.042;
+  }
+
+  return 3840.6 + (x-100000) * 0.045;
+}
+
+
+function totalIncomeTax(x){
+  return nationalIncomeTax(x) + localIncomeTax(x);
+}
+
+
+function calculateTaxSaving(taxBase,deduction){
+
+  const before = totalIncomeTax(taxBase);
+
+  const after = totalIncomeTax(
+    Math.max(
       0,
-      beforeTax - afterTax
+      taxBase-deduction
+    )
+  );
+
+  return Math.max(0,before-after);
+}
+
+
+/* 차량비 계산 */
+
+function vehicleExpense(
+  monthlyRent,
+  monthlyOther,
+  months,
+  record,
+  extraCar,
+  insured
+){
+
+  const rent = monthlyRent * months;
+
+  const other = monthlyOther * months;
+
+  const total = rent + other;
+
+  const recordLimit =
+    1500 * months / 12;
+
+  const depreciationLimit =
+    800 * months / 12;
+
+
+  if(extraCar && !insured){
+
+    return {
+      rent:rent,
+      other:other,
+      total:total,
+      recordLimit:recordLimit,
+      depreciationLimit:depreciationLimit,
+      businessRate:0,
+      depreciation:0,
+      depreciationAllowed:0,
+      carry:0,
+      deductible:0,
+      blocked:true
+    };
+  }
+
+
+  let businessRate;
+
+
+  if(record === "none"){
+
+    if(total <= recordLimit){
+      businessRate = 1;
+    }
+    else{
+      businessRate = recordLimit / total;
+    }
+
+  }
+  else{
+
+    businessRate = Number(record);
+
+  }
+
+
+  const businessExpense =
+    total * businessRate;
+
+
+  const depreciation =
+    rent * 0.70 * businessRate;
+
+
+  const depreciationAllowed =
+    Math.min(
+      depreciation,
+      depreciationLimit
     );
-  }
 
 
-  /* ===========================
-     차량 관련비용
-  =========================== */
-
-  function vehicleCalc(
-    rentMonthly,
-    otherMonthly,
-    months,
-    record,
-    extra,
-    insurance
-  ) {
-
-    const rent = rentMonthly * months;
-    const other = otherMonthly * months;
-    const total = rent + other;
-
-    const recordLimit =
-      1500 * months / 12;
-
-    const depreciationLimit =
-      800 * months / 12;
+  const carry =
+    Math.max(
+      0,
+      depreciation-depreciationLimit
+    );
 
 
-    /*
-      추가 차량인데 보험 요건 미충족
-    */
-
-    if (extra && !insurance) {
-      return {
-        total: total,
-        rent: rent,
-        other: other,
-        recordLimit: recordLimit,
-        depreciationLimit: depreciationLimit,
-
-        businessRate: 0,
-
-        dep: 0,
-        depAllowed: 0,
-        depCarry: 0,
-
-        deductible: 0,
-
-        blocked: true
-      };
-    }
+  const deductible =
+    Math.max(
+      0,
+      businessExpense-carry
+    );
 
 
-    /*
-      업무사용비율
-    */
-
-    let businessRate;
-
-    if (record === "none") {
-
-      if (total <= recordLimit) {
-        businessRate = 1;
-      } else {
-        businessRate =
-          recordLimit / total;
-      }
-
-    } else {
-
-      businessRate =
-        Number(record);
-
-    }
+  return {
+    rent:rent,
+    other:other,
+    total:total,
+    recordLimit:recordLimit,
+    depreciationLimit:depreciationLimit,
+    businessRate:businessRate,
+    depreciation:depreciation,
+    depreciationAllowed:depreciationAllowed,
+    carry:carry,
+    deductible:deductible,
+    blocked:false
+  };
+}
 
 
-    const businessExpense =
-      total * businessRate;
+function currentState(){
+
+  return {
+    taxBand:Number(get("taxBand").value),
+    rentBand:Number(get("rentBand").value),
+    otherBand:Number(get("otherBand").value),
+    months:Number(get("months").value),
+    record:get("record").value,
+    extraCar:get("carCount").value === "extra",
+    insured:get("insurance").value === "yes"
+  };
+}
 
 
-    /*
-      장기렌트료 중
-      감가상각비 상당액 70%
-    */
+function rentLabel(index){
 
-    const dep =
-      rent *
-      0.70 *
-      businessRate;
+  const b = RENT_BANDS[index];
+
+  return b[0] + " ~ " + b[1] + "만원";
+}
 
 
-    const depAllowed =
-      Math.min(
-        dep,
-        depreciationLimit
+/* 메인 결과 */
+
+function calculate(){
+
+  try{
+
+    const s = currentState();
+
+    const monthlyRent =
+      midpoint(
+        RENT_BANDS[s.rentBand]
+      );
+
+    const monthlyOther =
+      midpoint(
+        OTHER_BANDS[s.otherBand]
       );
 
 
-    const depCarry =
-      Math.max(
-        0,
-        dep - depreciationLimit
+    const r = vehicleExpense(
+      monthlyRent,
+      monthlyOther,
+      s.months,
+      s.record,
+      s.extraCar,
+      s.insured
+    );
+
+
+    const taxBand =
+      TAX_BANDS[s.taxBand];
+
+    const taxBase =
+      taxBand[1];
+
+
+    const saving =
+      calculateTaxSaving(
+        taxBase,
+        r.deductible
       );
 
 
-    /*
-      당해 필요경비
-    */
+    const netCost =
+      r.total-saving;
 
-    const deductible =
-      Math.max(
-        0,
-        businessExpense - depCarry
+
+    const savingRange =
+      taxBand.map(function(base){
+
+        return calculateTaxSaving(
+          base,
+          r.deductible
+        );
+
+      });
+
+
+    const minSaving =
+      Math.min.apply(
+        null,
+        savingRange
       );
 
 
-    return {
-      total: total,
-      rent: rent,
-      other: other,
-
-      recordLimit: recordLimit,
-      depreciationLimit: depreciationLimit,
-
-      businessRate: businessRate,
-
-      dep: dep,
-      depAllowed: depAllowed,
-      depCarry: depCarry,
-
-      deductible: deductible,
-
-      blocked: false
-    };
-  }
+    const maxSaving =
+      Math.max.apply(
+        null,
+        savingRange
+      );
 
 
-  /* ===========================
-     현재 입력조건
-  =========================== */
-
-  function getState() {
-    return {
-      taxBand:
-        Number(
-          $("taxBand").value
-        ),
-
-      rentBand:
-        Number(
-          $("rentBand").value
-        ),
-
-      otherBand:
-        Number(
-          $("otherBand").value
-        ),
-
-      months:
-        Number(
-          $("months").value
-        ),
-
-      record:
-        $("record").value,
-
-      extra:
-        $("carCount").value ===
-        "extra",
-
-      insurance:
-        $("insurance").value ===
-        "yes",
-
-      bookType:
-        $("bookType").value
-    };
-  }
+    get("taxSaving").textContent =
+      formatMoney(saving);
 
 
-  function rentLabel(index) {
-    const band =
-      RENT[index];
-
-    return (
-      band[0] +
+    get("taxRange").textContent =
+      "선택한 과세표준 구간 내 예상 " +
+      formatMoney(minSaving) +
       " ~ " +
-      band[1] +
-      "만원"
+      formatMoney(maxSaving);
+
+
+    get("cash").textContent =
+      formatMoney(r.total);
+
+
+    get("deductible").textContent =
+      formatMoney(r.deductible);
+
+
+    get("deductibleRate").textContent =
+      "총 지출의 " +
+      formatPercent(
+        r.total > 0
+        ? r.deductible/r.total
+        : 0
+      );
+
+
+    get("netCost").textContent =
+      formatMoney(netCost);
+
+
+    get("savingRate").textContent =
+      "현금지출 대비 세금 감소 " +
+      formatPercent(
+        r.total > 0
+        ? saving/r.total
+        : 0
+      );
+
+
+    get("businessRate").textContent =
+      formatPercent(r.businessRate);
+
+
+    get("depAmount").textContent =
+      formatMoney(r.depreciation);
+
+
+    get("depAllowed").textContent =
+      formatMoney(r.depreciationAllowed);
+
+
+    get("depCarry").textContent =
+      formatMoney(r.carry);
+
+
+    renderVerdict(s,r);
+
+    renderComparison(s);
+
+    renderBestPlan(s);
+
+
+    get("empty").style.display =
+      "none";
+
+
+    get("resultContent")
+      .classList
+      .add("show");
+
+
+    get("compareSection").style.display =
+      "block";
+
+
+    get("bestSection").style.display =
+      "block";
+
+
+    get("changed")
+      .classList
+      .remove("show");
+
+
+    get("status").textContent =
+      "계산 완료";
+
+
+    if(window.innerWidth <= 850){
+
+      get("resultCard").scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+    }
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    get("status").textContent =
+      "계산 오류";
+
+    alert(
+      "계산 오류가 발생했습니다.\n" +
+      error.message
     );
+
+  }
+}
+
+
+/* 현재 선택 판정 */
+
+function renderVerdict(s,r){
+
+  const box =
+    get("verdict");
+
+
+  if(r.blocked){
+
+    box.className =
+      "verdict red";
+
+    box.innerHTML =
+      "<strong>추가 차량의 보험요건을 확인하세요.</strong>" +
+      "현재 선택에서는 필요경비 인정액을 0원으로 계산했습니다.";
+
+    return;
   }
 
 
-  /* ===========================
-     결과 판정
-  =========================== */
+  const messages = [];
 
-  function renderVerdict(
-    state,
-    result
-  ) {
 
-    const verdict =
-      $("verdict");
+  if(r.carry > 0){
 
-
-    if (
-      state.bookType ===
-      "unknown"
-    ) {
-
-      verdict.className =
-        "verdict warn";
-
-      verdict.innerHTML =
-        "<strong>장부유형 확인이 필요합니다.</strong>" +
-        "이 계산기는 복식부기의무자를 기준으로 설계했습니다.";
-
-      return;
-    }
-
-
-    if (result.blocked) {
-
-      verdict.className =
-        "verdict danger";
-
-      verdict.innerHTML =
-        "<strong>추가 차량의 보험 요건 확인이 필요합니다.</strong>" +
-        "현재 선택에서는 필요경비 인정액을 0원으로 계산했습니다.";
-
-      return;
-    }
-
-
-    const issues = [];
-
-
-    if (result.depCarry > 0) {
-
-      issues.push(
-        "감가상각비 상당액 " +
-        money(result.depCarry) +
-        " 이월 예상"
-      );
-
-    }
-
-
-    if (
-      state.record === "none" &&
-      result.total >
-      result.recordLimit
-    ) {
-
-      issues.push(
-        "업무사용비율 " +
-        pct(
-          result.businessRate
-        ) +
-        " 적용"
-      );
-
-    }
-
-
-    if (issues.length > 0) {
-
-      verdict.className =
-        "verdict warn";
-
-      verdict.innerHTML =
-        "<strong>세무상 한도에 걸리는 구간입니다.</strong>" +
-        issues.join(" · ");
-
-    } else {
-
-      verdict.className =
-        "verdict good";
-
-      verdict.innerHTML =
-        "<strong>주요 당해연도 한도 안쪽입니다.</strong>" +
-        "현재 조건에서는 주요 업무용승용차 비용 한도에 걸리지 않습니다.";
-
-    }
-  }
-
-
-  /* ===========================
-     렌트료별 비교
-  =========================== */
-
-  function renderComparison(
-    state
-  ) {
-
-    const tbody =
-      $("compareBody");
-
-    tbody.innerHTML =
-      "";
-
-
-    const base =
-      TAX_BANDS[
-        state.taxBand
-      ][1];
-
-
-    const other =
-      midpoint(
-        OTHER[
-          state.otherBand
-        ]
-      );
-
-
-    RENT.forEach(
-      function (
-        band,
-        index
-      ) {
-
-        const rent =
-          midpoint(band);
-
-
-        const result =
-          vehicleCalc(
-            rent,
-            other,
-
-            state.months,
-            state.record,
-            state.extra,
-            state.insurance
-          );
-
-
-        const saving =
-          taxSaving(
-            base,
-            result.deductible
-          );
-
-
-        const net =
-          result.total -
-          saving;
-
-
-        const tr =
-          document.createElement(
-            "tr"
-          );
-
-
-        if (
-          index ===
-          state.rentBand
-        ) {
-
-          tr.className =
-            "active-row";
-
-        }
-
-
-        let tag = "";
-
-        if (
-          index ===
-          state.rentBand
-        ) {
-
-          tag =
-            ' <span class="badge">현재 선택</span>';
-
-        }
-
-
-        tr.innerHTML =
-          "<td>" +
-          rentLabel(index) +
-          tag +
-          "</td>" +
-
-          "<td>" +
-          money(rent) +
-          "</td>" +
-
-          "<td>" +
-          money(result.total) +
-          "</td>" +
-
-          "<td>" +
-          money(
-            result.deductible
-          ) +
-          "</td>" +
-
-          "<td>" +
-          money(saving) +
-          "</td>" +
-
-          "<td><b>" +
-          money(net) +
-          "</b></td>";
-
-
-        tbody.appendChild(tr);
-
-      }
+    messages.push(
+      "감가상각비 상당액 " +
+      formatMoney(r.carry) +
+      " 이월 예상"
     );
+
   }
 
 
-  /* ===========================
-     최고의 절세안
-  =========================== */
+  if(
+    s.record === "none" &&
+    r.total > r.recordLimit
+  ){
+
+    messages.push(
+      "운행기록 미작성으로 업무사용비율 " +
+      formatPercent(r.businessRate)
+    );
 
-  function findBestPlan(
-    state
-  ) {
-
-    const base =
-      TAX_BANDS[
-        state.taxBand
-      ][1];
-
-
-    const other =
-      midpoint(
-        OTHER[
-          state.otherBand
-        ]
-      );
-
-
-    const candidates =
-      RENT.map(
-        function (
-          band,
-          index
-        ) {
-
-          const rent =
-            midpoint(band);
-
-
-          const result =
-            vehicleCalc(
-              rent,
-              other,
-
-              state.months,
-              state.record,
-              state.extra,
-              state.insurance
-            );
-
-
-          const saving =
-            taxSaving(
-              base,
-              result.deductible
-            );
-
-
-          const net =
-            result.total -
-            saving;
-
-
-          let deductionRate =
-            0;
-
-
-          if (
-            result.total >
-            0
-          ) {
-
-            deductionRate =
-              result.deductible /
-              result.total;
-
-          }
-
-
-          /*
-            세무효율 우수 조건
-
-            1. 보험 문제 없음
-            2. 업무사용비율 100%
-            3. 감가상각 상당액 이월 없음
-            4. 비용인정률 100%
-          */
-
-          const efficient =
-            !result.blocked &&
-            result.businessRate >= 0.999 &&
-            result.depCarry < 0.01 &&
-            deductionRate >= 0.999;
-
-
-          return {
-            index: index,
-            rent: rent,
-
-            result: result,
-
-            saving: saving,
-            net: net,
-
-            deductionRate:
-              deductionRate,
-
-            efficient:
-              efficient
-          };
-
-        }
-      );
-
-
-    const efficientList =
-      candidates.filter(
-        function (item) {
-          return item.efficient;
-        }
-      );
-
-
-    let best;
-
-
-    /*
-      한도 안쪽 후보가 있으면
-      그중 절세액 최대
-    */
-
-    if (
-      efficientList.length >
-      0
-    ) {
-
-      best =
-        efficientList[0];
-
-
-      efficientList.forEach(
-        function (item) {
-
-          if (
-            item.saving >
-            best.saving
-          ) {
-
-            best =
-              item;
-
-          }
-
-        }
-      );
-
-    }
-
-
-    /*
-      한도 안쪽 후보가 없으면
-
-      1. 비용인정률
-      2. 절세액
-      3. 세후 실부담
-
-      순서
-    */
-
-    else {
-
-      candidates.sort(
-        function (a, b) {
-
-          if (
-            Math.abs(
-              b.deductionRate -
-              a.deductionRate
-            ) >
-            0.001
-          ) {
-
-            return (
-              b.deductionRate -
-              a.deductionRate
-            );
-
-          }
-
-
-          if (
-            Math.abs(
-              b.saving -
-              a.saving
-            ) >
-            0.01
-          ) {
-
-            return (
-              b.saving -
-              a.saving
-            );
-
-          }
-
-
-          return (
-            a.net -
-            b.net
-          );
-
-        }
-      );
-
-
-      best =
-        candidates[0];
-
-    }
-
-
-    return {
-      best: best,
-      candidates:
-        candidates
-    };
   }
 
 
-  function renderBestPlan(
-    state
-  ) {
+  if(messages.length > 0){
 
-    const data =
-      findBestPlan(
-        state
-      );
+    box.className =
+      "verdict orange";
+
+    box.innerHTML =
+      "<strong>세무상 한도에 걸리는 구간입니다.</strong>" +
+      messages.join(" · ");
+
+  }
+  else{
+
+    box.className =
+      "verdict green";
+
+    box.innerHTML =
+      "<strong>주요 당해연도 한도 안쪽입니다.</strong>" +
+      "현재 조건에서는 업무사용비율 제한 또는 감가상각비 상당액 이월이 발생하지 않습니다.";
+
+  }
+}
 
 
-    const best =
-      data.best;
+/* 렌트료 비교 */
+
+function buildCandidates(s){
+
+  const taxBase =
+    TAX_BANDS[s.taxBand][1];
 
 
-    /*
-      현재 선택차량 찾기
-    */
-
-    let current =
-      null;
-
-
-    data.candidates.forEach(
-      function (item) {
-
-        if (
-          item.index ===
-          state.rentBand
-        ) {
-
-          current =
-            item;
-
-        }
-
-      }
+  const monthlyOther =
+    midpoint(
+      OTHER_BANDS[s.otherBand]
     );
 
 
-    $("bestRent")
-      .textContent =
-      rentLabel(
-        best.index
-      );
+  return RENT_BANDS.map(
+    function(band,index){
+
+      const monthlyRent =
+        midpoint(band);
 
 
-    $("bestSaving")
-      .textContent =
-      money(
-        best.saving
-      );
-
-
-    $("bestNet")
-      .textContent =
-      money(
-        best.net
-      );
-
-
-    $("bestDeductionRate")
-      .textContent =
-      pct(
-        best.deductionRate
-      );
-
-
-    if (
-      best.efficient
-    ) {
-
-      $("bestRentComment")
-        .textContent =
-        "주요 세무 한도에 걸리지 않으면서 당해 비용처리 효과를 최대화하는 구간";
-
-
-      $("bestReason")
-        .innerHTML =
-
-        "<strong>왜 이 구간을 추천하나요?</strong>" +
-
-        "업무사용비율 " +
-
-        pct(
-          best.result
-          .businessRate
-        ) +
-
-        ", 비용인정률 " +
-
-        pct(
-          best.deductionRate
-        ) +
-
-        "이며 감가상각비 상당액 이월이 없는 후보 중 " +
-
-        "예상 절세액이 가장 큰 구간입니다.";
-
-    } else {
-
-      $("bestRentComment")
-        .textContent =
-        "현재 조건에서 비용인정률과 절세효과를 종합한 추천 구간";
-
-
-      $("bestReason")
-        .innerHTML =
-
-        "<strong>왜 이 구간을 추천하나요?</strong>" +
-
-        "현재 입력조건에서는 모든 비용을 당해연도에 100% 인정받으면서 " +
-
-        "감가상각비 상당액 이월까지 피할 수 있는 후보가 없어 " +
-
-        "비용인정률 → 절세액 → 세후 실부담 순으로 비교했습니다.";
-
-    }
-
-
-    if (
-      current &&
-      best.index ===
-      state.rentBand
-    ) {
-
-      $("bestCompare")
-        .textContent =
-
-        "✓ 현재 선택한 " +
-
-        rentLabel(
-          state.rentBand
-        ) +
-
-        " 구간이 추천 구간과 동일합니다.";
-
-    }
-
-
-    else if (current) {
-
-      const savingDiff =
-        best.saving -
-        current.saving;
-
-
-      const netDiff =
-        best.net -
-        current.net;
-
-
-      let text =
-
-        "현재 선택 " +
-
-        rentLabel(
-          state.rentBand
-        ) +
-
-        " → 추천 " +
-
-        rentLabel(
-          best.index
-        ) +
-
-        " · 절세액 차이 " +
-
-        money(
-          Math.abs(
-            savingDiff
-          )
-        ) +
-
-        " · 세후 실부담 차이 " +
-
-        money(
-          Math.abs(
-            netDiff
-          )
+      const r =
+        vehicleExpense(
+          monthlyRent,
+          monthlyOther,
+          s.months,
+          s.record,
+          s.extraCar,
+          s.insured
         );
-
-
-      if (
-        netDiff < 0
-      ) {
-
-        text +=
-          " 감소";
-
-      }
-
-
-      else if (
-        netDiff > 0
-      ) {
-
-        text +=
-          " 증가";
-
-      }
-
-
-      $("bestCompare")
-        .textContent =
-        text;
-
-    }
-
-  }
-
-
-  /* ===========================
-     메인 계산
-  =========================== */
-
-  function calculate() {
-
-    try {
-
-      const state =
-        getState();
-
-
-      const rent =
-        midpoint(
-          RENT[
-            state.rentBand
-          ]
-        );
-
-
-      const other =
-        midpoint(
-          OTHER[
-            state.otherBand
-          ]
-        );
-
-
-      const result =
-        vehicleCalc(
-          rent,
-          other,
-
-          state.months,
-          state.record,
-          state.extra,
-          state.insurance
-        );
-
-
-      const taxBases =
-        TAX_BANDS[
-          state.taxBand
-        ];
-
-
-      const middleBase =
-        taxBases[1];
 
 
       const saving =
-        taxSaving(
-          middleBase,
-          result.deductible
+        calculateTaxSaving(
+          taxBase,
+          r.deductible
         );
 
 
       const net =
-        result.total -
-        saving;
+        r.total-saving;
 
 
-      const savingRanges =
-        taxBases.map(
-          function (
-            taxBase
-          ) {
-
-            return taxSaving(
-              taxBase,
-              result.deductible
-            );
-
-          }
-        );
+      const rate =
+        r.total > 0
+        ? r.deductible/r.total
+        : 0;
 
 
-      const minSaving =
-        Math.min.apply(
-          null,
-          savingRanges
-        );
+      const efficient =
+        !r.blocked &&
+        r.businessRate >= 0.999 &&
+        r.carry < 0.01 &&
+        rate >= 0.999;
 
 
-      const maxSaving =
-        Math.max.apply(
-          null,
-          savingRanges
-        );
+      return {
+        index:index,
+        monthlyRent:monthlyRent,
+        result:r,
+        saving:saving,
+        net:net,
+        rate:rate,
+        efficient:efficient
+      };
+
+    }
+  );
+}
 
 
-      /*
-        결과 출력
-      */
+function renderComparison(s){
 
-      $("taxSaving")
-        .textContent =
-        money(
-          saving
-        );
+  const tbody =
+    get("compareBody");
 
 
-      $("taxRange")
-        .textContent =
-
-        "과세표준 구간 내 예상 " +
-
-        money(
-          minSaving
-        ) +
-
-        " ~ " +
-
-        money(
-          maxSaving
-        );
+  tbody.innerHTML =
+    "";
 
 
-      $("cash")
-        .textContent =
-        money(
-          result.total
-        );
+  const candidates =
+    buildCandidates(s);
 
 
-      $("deductible")
-        .textContent =
-        money(
-          result.deductible
-        );
+  candidates.forEach(
+    function(c){
+
+      const tr =
+        document.createElement("tr");
 
 
-      let deductionRate =
-        0;
+      if(c.index === s.rentBand){
 
-
-      if (
-        result.total >
-        0
-      ) {
-
-        deductionRate =
-          result.deductible /
-          result.total;
+        tr.className =
+          "selected-row";
 
       }
 
 
-      $("deductibleRate")
-        .textContent =
-
-        "총지출의 " +
-
-        pct(
-          deductionRate
-        );
+      const tag =
+        c.index === s.rentBand
+        ? '<span class="tag">현재 선택</span>'
+        : '';
 
 
-      $("net")
-        .textContent =
-        money(
-          net
-        );
+      tr.innerHTML =
+        "<td>" +
+        rentLabel(c.index) +
+        " " +
+        tag +
+        "</td>" +
+
+        "<td>" +
+        formatMoney(c.monthlyRent) +
+        "</td>" +
+
+        "<td>" +
+        formatMoney(c.result.total) +
+        "</td>" +
+
+        "<td>" +
+        formatMoney(c.result.deductible) +
+        "</td>" +
+
+        "<td>" +
+        formatMoney(c.saving) +
+        "</td>" +
+
+        "<td><strong>" +
+        formatMoney(c.net) +
+        "</strong></td>";
 
 
-      let savingRate =
-        0;
+      tbody.appendChild(tr);
+
+    }
+  );
+}
 
 
-      if (
-        result.total >
-        0
-      ) {
+/* 최적 절세안 */
 
-        savingRate =
-          saving /
-          result.total;
+function chooseBestCandidate(candidates){
+
+  const clean =
+    candidates.filter(
+      function(c){
+        return c.efficient;
+      }
+    );
+
+
+  if(clean.length > 0){
+
+    return clean.reduce(
+      function(best,current){
+
+        if(current.saving > best.saving){
+          return current;
+        }
+
+        if(
+          Math.abs(current.saving-best.saving) < 0.01 &&
+          current.net < best.net
+        ){
+          return current;
+        }
+
+        return best;
 
       }
+    );
+  }
 
 
-      $("savingRate")
-        .textContent =
-
-        "현금지출 대비 세금 감소 " +
-
-        pct(
-          savingRate
-        );
+  const sorted =
+    candidates.slice();
 
 
-      $("businessRate")
-        .textContent =
-        pct(
-          result.businessRate
-        );
+  sorted.sort(
+    function(a,b){
 
-
-      $("dep")
-        .textContent =
-        money(
-          result.dep
-        );
-
-
-      $("depAllowed")
-        .textContent =
-        money(
-          result.depAllowed
-        );
-
-
-      $("depCarry")
-        .textContent =
-        money(
-          result.depCarry
-        );
-
-
-      /*
-        상세 및 추천
-      */
-
-      renderVerdict(
-        state,
-        result
-      );
-
-
-      renderComparison(
-        state
-      );
-
-
-      renderBestPlan(
-        state
-      );
-
-
-      /*
-        화면 표시
-      */
-
-      $("placeholder")
-        .style
-        .display =
-        "none";
-
-
-      $("results")
-        .classList
-        .add(
-          "show"
-        );
-
-
-      $("compareSection")
-        .style
-        .display =
-        "block";
-
-
-      $("bestPlanSection")
-        .style
-        .display =
-        "block";
-
-
-      $("dirty")
-        .classList
-        .remove(
-          "show"
-        );
-
-
-      $("status")
-        .textContent =
-        "계산 완료";
-
-
-      if (
-        window.innerWidth <
-        880
-      ) {
-
-        $("resultCard")
-          .scrollIntoView({
-            behavior:
-              "smooth",
-
-            block:
-              "start"
-          });
-
+      if(Math.abs(b.rate-a.rate) > 0.001){
+        return b.rate-a.rate;
       }
 
-    }
-
-    catch (error) {
-
-      console.error(
-        error
-      );
-
-
-      alert(
-        "계산 중 오류가 발생했습니다.\n\n" +
-        error.message
-      );
-
-
-      $("status")
-        .textContent =
-        "오류 발생";
-
-    }
-
-  }
-
-
-  /* ===========================
-     변경 감지
-  =========================== */
-
-  function changed() {
-
-    $("dirty")
-      .classList
-      .add(
-        "show"
-      );
-
-
-    if (
-      $("results")
-      .classList
-      .contains(
-        "show"
-      )
-    ) {
-
-      $("status")
-        .textContent =
-        "조건 변경됨 · 재계산 필요";
-
-    }
-
-  }
-
-
-  function toggleInsurance() {
-
-    if (
-      $("carCount").value ===
-      "extra"
-    ) {
-
-      $("insuranceArea")
-        .style
-        .display =
-        "flex";
-
-    }
-
-    else {
-
-      $("insuranceArea")
-        .style
-        .display =
-        "none";
-
-    }
-
-  }
-
-
-  /* ===========================
-     초기화
-  =========================== */
-
-  function resetAll() {
-
-    $("taxBand").value =
-      "3";
-
-    $("rentBand").value =
-      "2";
-
-    $("otherBand").value =
-      "1";
-
-    $("months").value =
-      "12";
-
-    $("record").value =
-      "none";
-
-    $("carCount").value =
-      "first";
-
-    $("insurance").value =
-      "yes";
-
-    $("bookType").value =
-      "double";
-
-
-    toggleInsurance();
-
-
-    $("dirty")
-      .classList
-      .remove(
-        "show"
-      );
-
-
-    $("results")
-      .classList
-      .remove(
-        "show"
-      );
-
-
-    $("placeholder")
-      .style
-      .display =
-      "grid";
-
-
-    $("compareSection")
-      .style
-      .display =
-      "none";
-
-
-    $("bestPlanSection")
-      .style
-      .display =
-      "none";
-
-
-    $("status")
-      .textContent =
-      "아직 계산 전";
-
-  }
-
-
-  /* ===========================
-     이벤트
-  =========================== */
-
-  document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-      document
-        .querySelectorAll(
-          "select"
-        )
-        .forEach(
-          function (
-            select
-          ) {
-
-            select.addEventListener(
-              "change",
-              function () {
-
-                toggleInsurance();
-                changed();
-
-              }
-            );
-
-          }
-        );
-
-
-      $("calculateBtn")
-        .addEventListener(
-          "click",
-          calculate
-        );
-
-
-      $("resetBtn")
-        .addEventListener(
-          "click",
-          resetAll
-        );
-
-
-      toggleInsurance();
+      if(Math.abs(b.saving-a.saving) > 0.01){
+        return b.saving-a.saving;
+      }
+
+      return a.net-b.net;
 
     }
   );
 
-})();
+
+  return sorted[0];
+}
+
+
+function renderBestPlan(s){
+
+  const candidates =
+    buildCandidates(s);
+
+
+  const best =
+    chooseBestCandidate(candidates);
+
+
+  const current =
+    candidates.find(
+      function(c){
+        return c.index === s.rentBand;
+      }
+    );
+
+
+  get("bestRent").textContent =
+    rentLabel(best.index);
+
+
+  get("bestSaving").textContent =
+    formatMoney(best.saving);
+
+
+  get("bestNet").textContent =
+    formatMoney(best.net);
+
+
+  get("bestRate").textContent =
+    formatPercent(best.rate);
+
+
+  if(best.efficient){
+
+    get("bestComment").textContent =
+      "주요 세무한도 안에서 당해 비용처리 효과가 가장 큰 구간";
+
+
+    get("bestReason").innerHTML =
+      "<strong>왜 이 구간인가요?</strong>" +
+      "업무사용비율 " +
+      formatPercent(best.result.businessRate) +
+      ", 비용인정률 " +
+      formatPercent(best.rate) +
+      "이며 감가상각비 상당액의 차기 이월이 없는 후보 중 절세액이 가장 큽니다.";
+
+  }
+  else{
+
+    get("bestComment").textContent =
+      "현재 조건에서 비용인정률과 절세액을 종합한 추천";
+
+
+    get("bestReason").innerHTML =
+      "<strong>왜 이 구간인가요?</strong>" +
+      "현재 조건에서는 모든 비용을 당해연도에 100% 인정받는 후보가 없어 " +
+      "비용인정률을 우선하고 예상 절세액과 세후 실부담을 함께 비교했습니다.";
+
+  }
+
+
+  if(current.index === best.index){
+
+    get("bestCompare").textContent =
+      "✓ 현재 선택한 " +
+      rentLabel(current.index) +
+      " 구간이 추천안과 동일합니다.";
+
+  }
+  else{
+
+    const savingDifference =
+      best.saving-current.saving;
+
+
+    const netDifference =
+      best.net-current.net;
+
+
+    let message =
+      "현재 " +
+      rentLabel(current.index) +
+      " → 추천 " +
+      rentLabel(best.index) +
+      " · 절세액 차이 " +
+      formatMoney(
+        Math.abs(savingDifference)
+      ) +
+      " · 세후 실부담 차이 " +
+      formatMoney(
+        Math.abs(netDifference)
+      );
+
+
+    if(netDifference < 0){
+      message += " 감소";
+    }
+    else if(netDifference > 0){
+      message += " 증가";
+    }
+
+
+    get("bestCompare").textContent =
+      message;
+
+  }
+}
+
+
+/* 입력 변경 */
+
+function markChanged(){
+
+  get("changed")
+    .classList
+    .add("show");
+
+
+  if(
+    get("resultContent")
+      .classList
+      .contains("show")
+  ){
+
+    get("status").textContent =
+      "조건 변경됨 · 재계산 필요";
+
+  }
+}
+
+
+function toggleInsurance(){
+
+  get("insuranceArea").style.display =
+    get("carCount").value === "extra"
+    ? "flex"
+    : "none";
+}
+
+
+/* 초기화 */
+
+function resetCalculator(){
+
+  get("taxBand").value =
+    "3";
+
+  get("rentBand").value =
+    "2";
+
+  get("otherBand").value =
+    "1";
+
+  get("months").value =
+    "12";
+
+  get("record").value =
+    "none";
+
+  get("carCount").value =
+    "first";
+
+  get("insurance").value =
+    "yes";
+
+
+  toggleInsurance();
+
+
+  get("resultContent")
+    .classList
+    .remove("show");
+
+
+  get("empty").style.display =
+    "grid";
+
+
+  get("compareSection").style.display =
+    "none";
+
+
+  get("bestSection").style.display =
+    "none";
+
+
+  get("changed")
+    .classList
+    .remove("show");
+
+
+  get("status").textContent =
+    "아직 계산 전";
+}
+
+
+/* 시작 */
+
+window.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    get("bootStatus").textContent =
+      "계산기 준비 완료";
+
+
+    document.querySelectorAll("select")
+      .forEach(
+        function(select){
+
+          select.addEventListener(
+            "change",
+            function(){
+
+              toggleInsurance();
+
+              markChanged();
+
+            }
+          );
+
+        }
+      );
+
+
+    get("calcBtn").addEventListener(
+      "click",
+      calculate
+    );
+
+
+    get("resetBtn").addEventListener(
+      "click",
+      resetCalculator
+    );
+
+
+    toggleInsurance();
+
+  }
+);
 </script>
+
+</body>
+</html>
