@@ -2,51 +2,45 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>장기렌트 세후 실부담 계산기</title>
 
 <style>
 :root{
   --blue:#2563eb;
-  --blue2:#1d4ed8;
-  --navy:#122844;
+  --blue-dark:#1d4ed8;
+  --navy:#132b4a;
 
   --bg:#f5f7fb;
-  --card:#ffffff;
+  --white:#ffffff;
 
-  --text:#172033;
+  --text:#182230;
   --sub:#667085;
   --line:#e4e7ec;
 
   --green:#067647;
-  --greenbg:#ecfdf3;
+  --green-bg:#ecfdf3;
 
   --orange:#b54708;
-  --orangebg:#fffaeb;
+  --orange-bg:#fffaeb;
 
   --red:#b42318;
-  --redbg:#fef3f2;
+  --red-bg:#fef3f2;
 
-  --shadow:
-    0 12px 34px
-    rgba(16,24,40,.07);
+  --shadow:0 10px 28px rgba(16,24,40,.07);
 }
-
 
 *{
   box-sizing:border-box;
 }
 
-
 html{
   scroll-behavior:smooth;
 }
 
-
 body{
   margin:0;
-
   background:var(--bg);
   color:var(--text);
 
@@ -61,23 +55,16 @@ body{
   line-height:1.5;
 }
 
-
 button,
 select,
 input{
   font:inherit;
 }
 
-
 .wrap{
-  max-width:1060px;
-
+  max-width:1080px;
   margin:0 auto;
-
-  padding:
-    22px
-    14px
-    54px;
+  padding:22px 14px 55px;
 }
 
 
@@ -86,80 +73,53 @@ input{
 ========================= */
 
 .hero{
-
-  padding:
-    27px
-    28px;
+  padding:26px 28px;
+  margin-bottom:17px;
 
   border-radius:22px;
 
   background:
     linear-gradient(
       135deg,
-      #122844,
+      #132b4a,
       #2563a8
     );
 
   color:white;
 
-  margin-bottom:17px;
-
   box-shadow:var(--shadow);
 }
 
-
-.hero small{
-
+.hero-badge{
   display:inline-block;
 
-  padding:
-    4px
-    8px;
+  padding:4px 8px;
 
-  border:
-    1px solid
-    rgba(255,255,255,.18);
-
-  background:
-    rgba(255,255,255,.11);
-
+  border:1px solid rgba(255,255,255,.18);
   border-radius:999px;
 
-  font-weight:800;
+  background:rgba(255,255,255,.11);
 
   font-size:9px;
+  font-weight:800;
 }
 
-
 .hero h1{
+  margin:9px 0 6px;
 
-  margin:
-    9px
-    0
-    6px;
-
-  font-size:
-    clamp(
-      27px,
-      4vw,
-      38px
-    );
-
-  line-height:1.17;
+  font-size:clamp(27px,4vw,38px);
+  line-height:1.15;
 
   letter-spacing:-1.4px;
 }
 
-
 .hero p{
-
   margin:0;
+  max-width:820px;
 
   color:#dbeafe;
 
   font-size:13px;
-
-  max-width:800px;
 }
 
 
@@ -168,73 +128,53 @@ input{
 ========================= */
 
 .layout{
-
   display:grid;
 
-  grid-template-columns:
-    .9fr
-    1.1fr;
+  grid-template-columns:.92fr 1.08fr;
 
   gap:17px;
 
   align-items:start;
 }
 
-
 .card{
+  background:var(--white);
 
-  background:var(--card);
-
-  border:
-    1px solid
-    var(--line);
-
+  border:1px solid var(--line);
   border-radius:18px;
 
   box-shadow:var(--shadow);
 }
 
-
 .panel{
   padding:19px;
 }
 
-
-.head{
-
+.title{
   display:flex;
-
   align-items:center;
-
-  gap:8px;
+  gap:9px;
 
   margin-bottom:17px;
 }
 
-
-.num{
-
+.step{
   width:28px;
   height:28px;
+
+  display:grid;
+  place-items:center;
 
   border-radius:9px;
 
   background:var(--navy);
-
   color:white;
 
-  display:grid;
-
-  place-items:center;
-
-  font-weight:900;
-
   font-size:12px;
+  font-weight:900;
 }
 
-
-.head h2{
-
+.title h2{
   margin:0;
 
   font-size:18px;
@@ -246,118 +186,84 @@ input{
 ========================= */
 
 .group{
+  padding:14px 0;
 
-  padding:
-    14px
-    0;
-
-  border-top:
-    1px solid
-    var(--line);
+  border-top:1px solid var(--line);
 }
-
 
 .group:first-of-type{
+  padding-top:0;
 
   border-top:0;
-
-  padding-top:0;
 }
 
-
 .group-title{
-
-  font-size:10px;
-
-  font-weight:900;
+  margin-bottom:9px;
 
   color:#475467;
 
-  margin-bottom:9px;
+  font-size:10px;
+  font-weight:900;
 }
 
-
 .field{
-
   display:flex;
-
   flex-direction:column;
-
   gap:5px;
 
   margin-top:11px;
 }
 
-
 .field:first-child{
   margin-top:0;
 }
 
-
 label{
+  color:#344054;
 
   font-size:10.5px;
-
   font-weight:750;
-
-  color:#344054;
 }
 
-
 select{
-
+  width:100%;
   height:45px;
 
-  border:
-    1px solid
-    #d0d5dd;
+  padding:0 10px;
 
+  border:1px solid #d0d5dd;
   border-radius:10px;
 
   background:white;
-
-  padding:
-    0
-    10px;
-
   color:var(--text);
 
   outline:none;
 }
 
-
 select:focus{
-
   border-color:#84adff;
 
   box-shadow:
     0 0 0 3px
-    rgba(37,99,235,.1);
+    rgba(37,99,235,.10);
 }
 
-
 .hint{
-
-  font-size:9.5px;
-
   color:var(--sub);
 
+  font-size:9.4px;
   line-height:1.45;
 }
 
 
 /* =========================
-   RENT
+   RENT CONTROL
 ========================= */
 
-.rent-control{
-
+.rent-box{
   padding:15px;
 
-  border:
-    2px solid
-    #bfdbfe;
-
+  border:2px solid #bfdbfe;
   border-radius:15px;
 
   background:
@@ -368,110 +274,77 @@ select:focus{
     );
 }
 
-
 .rent-label{
-
-  font-size:11px;
-
-  font-weight:900;
+  margin-bottom:8px;
 
   color:#1d4ed8;
 
-  margin-bottom:9px;
+  font-size:11px;
+  font-weight:900;
 }
 
-
-.stepper{
-
+.rent-stepper{
   display:grid;
 
-  grid-template-columns:
-    52px
-    1fr
-    52px;
+  grid-template-columns:58px 1fr 58px;
 
   gap:9px;
 
   align-items:center;
 }
 
+.rent-btn{
+  height:50px;
 
-.step-btn{
-
-  height:48px;
-
-  border:
-    1px solid
-    #bfdbfe;
-
+  border:1px solid #bfdbfe;
   border-radius:12px;
 
   background:white;
-
   color:#1d4ed8;
 
-  font-size:25px;
-
-  font-weight:700;
-
   cursor:pointer;
+
+  font-size:15px;
+  font-weight:900;
 }
 
-
-.step-btn:hover{
+.rent-btn:hover{
   background:#eff6ff;
 }
 
-
-.step-btn:active{
-  transform:scale(.98);
-}
-
-
-.rent-value{
-
+.rent-number{
   text-align:center;
 
-  font-size:30px;
-
-  font-weight:950;
-
   color:#1d4ed8;
+
+  font-size:32px;
+  font-weight:950;
 
   letter-spacing:-1px;
 }
 
-
-.rent-value span{
+.rent-number span{
+  margin-left:2px;
 
   font-size:13px;
-
-  margin-left:2px;
 }
 
-
-.slider{
-
+.rent-slider{
   width:100%;
-
-  margin-top:12px;
+  margin-top:13px;
 
   accent-color:var(--blue);
 }
 
-
 .slider-labels{
-
   display:flex;
+  justify-content:space-between;
 
-  justify-content:
-    space-between;
-
-  font-size:8px;
+  margin-top:2px;
 
   color:#98a2b3;
 
-  margin-top:2px;
+  font-size:8px;
 }
 
 
@@ -480,53 +353,36 @@ select:focus{
 ========================= */
 
 .advanced{
-
-  border:
-    1px solid
-    var(--line);
-
-  border-radius:11px;
-
-  background:#fafbfc;
+  margin-top:4px;
 
   overflow:hidden;
 
-  margin-top:3px;
+  border:1px solid var(--line);
+  border-radius:11px;
+
+  background:#fafbfc;
 }
 
-
 .advanced summary{
-
-  cursor:pointer;
-
-  padding:
-    11px
-    12px;
+  padding:11px 12px;
 
   color:#475467;
 
+  cursor:pointer;
+
   font-size:10px;
-
-  font-weight:750;
+  font-weight:700;
 }
-
 
 .advanced-body{
-
-  padding:
-    0
-    12px
-    12px;
-
   display:grid;
 
-  grid-template-columns:
-    1fr
-    1fr;
+  grid-template-columns:1fr 1fr;
 
   gap:10px;
-}
 
+  padding:0 12px 12px;
+}
 
 .advanced-body .field{
   margin:0;
@@ -534,71 +390,52 @@ select:focus{
 
 
 /* =========================
-   BUTTON
+   ACTION
 ========================= */
 
 .actions{
-
   display:grid;
 
-  grid-template-columns:
-    1fr
-    auto;
+  grid-template-columns:1fr auto;
 
   gap:8px;
 
   margin-top:14px;
 }
 
-
-.primary{
-
+.calc-btn{
   height:52px;
 
   border:0;
-
   border-radius:12px;
 
   background:var(--blue);
-
   color:white;
-
-  font-weight:900;
 
   cursor:pointer;
 
-  box-shadow:
-    0 7px 17px
-    rgba(37,99,235,.16);
+  font-size:14px;
+  font-weight:900;
 }
 
-
-.primary:hover{
-  background:var(--blue2);
+.calc-btn:hover{
+  background:var(--blue-dark);
 }
 
-
-.secondary{
-
+.reset-btn{
   height:52px;
 
-  border:
-    1px solid
-    #d0d5dd;
+  padding:0 16px;
 
+  border:1px solid #d0d5dd;
   border-radius:12px;
 
   background:white;
-
   color:#475467;
 
-  padding:
-    0
-    16px;
+  cursor:pointer;
 
   font-weight:700;
-
-  cursor:pointer;
 }
 
 
@@ -606,37 +443,25 @@ select:focus{
    RESULT
 ========================= */
 
-.result{
+.result-card{
   overflow:hidden;
 }
 
-
 .result-header{
-
-  padding:
-    17px
-    19px;
-
-  border-bottom:
-    1px solid
-    var(--line);
-
   display:flex;
-
-  justify-content:
-    space-between;
-
   align-items:center;
-}
+  justify-content:space-between;
 
+  padding:17px 19px;
+
+  border-bottom:1px solid var(--line);
+}
 
 .status{
+  color:var(--sub);
 
   font-size:9.5px;
-
-  color:var(--sub);
 }
-
 
 .result-body{
   padding:18px;
@@ -644,17 +469,13 @@ select:focus{
 
 
 /* =========================
-   BIG RESULT
+   MAIN RESULT
 ========================= */
 
-.big{
+.main-result{
+  padding:20px;
 
-  padding:19px;
-
-  border:
-    1px solid
-    #dbeafe;
-
+  border:1px solid #dbeafe;
   border-radius:16px;
 
   background:
@@ -665,38 +486,30 @@ select:focus{
     );
 }
 
-
-.big-label{
-
-  font-size:9.5px;
-
-  font-weight:850;
-
+.main-label{
   color:#475467;
+
+  font-size:10px;
+  font-weight:850;
 }
 
-
-.big-value{
-
-  min-height:51px;
+.main-number{
+  min-height:53px;
 
   margin-top:3px;
 
-  font-size:43px;
+  color:var(--blue);
 
-  line-height:1.1;
-
+  font-size:44px;
   font-weight:950;
 
-  color:var(--blue);
+  line-height:1.12;
 
   letter-spacing:-2px;
 }
 
-
-.big-sub{
-
-  min-height:20px;
+.main-caption{
+  min-height:19px;
 
   margin-top:4px;
 
@@ -707,56 +520,114 @@ select:focus{
 
 
 /* =========================
-   EQUATION
+   THREE NUMBERS
 ========================= */
 
-.equation{
-
+.money-grid{
   display:grid;
 
-  grid-template-columns:
-    1fr
-    24px
-    1fr
-    24px
-    1fr;
+  grid-template-columns:repeat(3,1fr);
 
-  align-items:center;
-
-  gap:6px;
+  gap:8px;
 
   margin-top:11px;
 }
 
+.money-card{
+  padding:12px;
 
-.metric{
-
-  padding:
-    11px
-    9px;
-
-  border:
-    1px solid
-    var(--line);
-
+  border:1px solid var(--line);
   border-radius:12px;
 
   background:white;
-
-  min-height:78px;
 }
 
-
-.metric.tax{
-
-  background:var(--greenbg);
-
+.money-card.tax{
   border-color:#abefc6;
+
+  background:var(--green-bg);
+}
+
+.money-card.net{
+  border-color:#bfdbfe;
+
+  background:#eff6ff;
+}
+
+.money-card span{
+  display:block;
+
+  color:var(--sub);
+
+  font-size:8.7px;
+}
+
+.money-card strong{
+  display:block;
+
+  margin-top:3px;
+
+  font-size:18px;
+}
+
+.money-card.tax strong{
+  color:var(--green);
+}
+
+.money-card.net strong{
+  color:var(--blue);
 }
 
 
-.metric span{
+/* =========================
+   TOTAL
+========================= */
 
+.total-line{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:10px;
+
+  margin-top:9px;
+  padding:9px 11px;
+
+  border-radius:10px;
+
+  background:#f8fafc;
+
+  color:var(--sub);
+
+  font-size:9px;
+}
+
+.total-line strong{
+  color:#344054;
+}
+
+
+/* =========================
+   TAX EFFICIENCY
+========================= */
+
+.efficiency{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:12px;
+
+  margin-top:11px;
+  padding:12px;
+
+  border:1px solid var(--line);
+  border-radius:12px;
+
+  background:white;
+}
+
+.efficiency-left span{
   display:block;
 
   color:var(--sub);
@@ -764,179 +635,90 @@ select:focus{
   font-size:8.5px;
 }
 
-
-.metric strong{
-
+.efficiency-left strong{
   display:block;
 
-  margin-top:4px;
+  margin-top:2px;
 
-  font-size:16px;
+  font-size:14px;
 }
 
+.efficiency-badge{
+  padding:5px 9px;
 
-.metric.tax strong{
-  color:var(--green);
-}
+  border-radius:999px;
 
+  background:#eef2f6;
+  color:#475467;
 
-.sign{
+  white-space:nowrap;
 
-  text-align:center;
-
-  color:#98a2b3;
-
-  font-size:18px;
-
+  font-size:9px;
   font-weight:900;
 }
 
-
-/* =========================
-   QUICK DECISION
-========================= */
-
-.quick{
-
-  display:grid;
-
-  grid-template-columns:
-    1fr
-    1fr;
-
-  gap:9px;
-
-  margin-top:12px;
-}
-
-
-.quick-card{
-
-  padding:13px;
-
-  border-radius:13px;
-
-  border:
-    1px solid
-    var(--line);
-
-  background:white;
-}
-
-
-.quick-card h3{
-
-  font-size:10px;
-
-  margin:
-    0
-    0
-    7px;
-
-  color:#475467;
-}
-
-
-.quick-card strong{
-
-  display:block;
-
-  font-size:20px;
-}
-
-
-.quick-card small{
-
-  display:block;
-
-  margin-top:4px;
-
-  color:var(--sub);
-
-  font-size:8.8px;
-
-  line-height:1.45;
-}
-
-
-.quick-card.decision{
-
-  background:var(--orangebg);
-
-  border-color:#fedf89;
-}
-
-
-.quick-card.decision strong{
-  color:var(--orange);
-}
-
-
-/* =========================
-   VERDICT
-========================= */
-
-.verdict{
-
-  margin-top:11px;
-
-  padding:
-    11px
-    12px;
-
-  border-radius:11px;
-
-  font-size:10px;
-
-  font-weight:750;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:7px;
-
-  min-height:39px;
-}
-
-
-.verdict.good{
-
-  background:var(--greenbg);
-
+.efficiency-badge.good{
+  background:#d1fadf;
   color:#05603a;
 }
 
-
-.verdict.warn{
-
-  background:var(--orangebg);
-
+.efficiency-badge.warn{
+  background:#fef0c7;
   color:#93370d;
 }
 
-
-.verdict.bad{
-
-  background:var(--redbg);
-
+.efficiency-badge.bad{
+  background:#fee4e2;
   color:#912018;
 }
 
 
-.dot{
+/* =========================
+   PLUS TEN
+========================= */
 
-  width:8px;
-  height:8px;
+.plus-card{
+  margin-top:11px;
+  padding:14px;
 
-  border-radius:50%;
+  border:1px solid #fedf89;
+  border-radius:13px;
 
-  background:currentColor;
+  background:var(--orange-bg);
+}
 
-  flex:
-    0
-    0
-    auto;
+.plus-title{
+  color:#93370d;
+
+  font-size:9px;
+  font-weight:850;
+}
+
+.plus-main{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+
+  gap:12px;
+
+  margin-top:3px;
+}
+
+.plus-main strong{
+  color:var(--orange);
+
+  font-size:24px;
+
+  line-height:1.2;
+}
+
+.plus-main span{
+  color:#93370d;
+
+  text-align:right;
+
+  font-size:9.5px;
+  line-height:1.4;
 }
 
 
@@ -945,23 +727,17 @@ select:focus{
 ========================= */
 
 .tax-note{
-
   display:none;
 
   margin-top:10px;
-
-  padding:
-    10px
-    11px;
+  padding:10px 11px;
 
   border-radius:10px;
 
-  background:var(--orangebg);
-
+  background:var(--orange-bg);
   color:#93370d;
 
   font-size:9px;
-
   line-height:1.5;
 }
 
@@ -970,30 +746,21 @@ select:focus{
    COMPARE
 ========================= */
 
-.compare{
-
+.compare-card{
   display:none;
 
   margin-top:17px;
-
   padding:18px;
 }
 
-
-.compare h2{
-
+.compare-card h2{
   margin:0;
 
   font-size:17px;
 }
 
-
-.compare p{
-
-  margin:
-    3px
-    0
-    11px;
+.compare-card > p{
+  margin:3px 0 12px;
 
   color:var(--sub);
 
@@ -1001,142 +768,121 @@ select:focus{
 }
 
 
-.compare-grid{
+/* 비교 헤더 */
 
+.compare-table{
+  overflow:hidden;
+
+  border:1px solid var(--line);
+  border-radius:13px;
+}
+
+.compare-row{
   display:grid;
 
   grid-template-columns:
-    repeat(
-      3,
-      1fr
-    );
+    90px
+    1fr
+    1fr
+    1fr;
 
-  gap:9px;
+  align-items:center;
+
+  min-height:48px;
+
+  border-top:1px solid var(--line);
 }
 
-
-.choice{
-
-  border:
-    1px solid
-    var(--line);
-
-  border-radius:14px;
-
-  padding:13px;
-
-  background:white;
-
-  position:relative;
+.compare-row:first-child{
+  border-top:0;
 }
 
-
-.choice.current{
-
-  border:
-    2px solid
-    #60a5fa;
-
-  background:#eff6ff;
-}
-
-
-.choice-tag{
-
-  font-size:8px;
-
-  font-weight:900;
-
-  color:var(--sub);
-}
-
-
-.choice.current .choice-tag{
-  color:#1d4ed8;
-}
-
-
-.choice-rent{
-
-  margin-top:2px;
-
-  font-size:20px;
-
-  font-weight:950;
-}
-
-
-.choice-main{
-
-  margin-top:12px;
-
-  color:var(--sub);
-
-  font-size:8.5px;
-}
-
-
-.choice-main strong{
-
-  display:block;
-
-  color:#344054;
-
-  font-size:23px;
-
-  line-height:1.15;
-
-  margin-top:1px;
-}
-
-
-.choice-foot{
-
-  margin-top:9px;
-
-  padding-top:8px;
-
-  border-top:
-    1px solid
-    var(--line);
-
-  display:flex;
-
-  justify-content:
-    space-between;
-
-  gap:6px;
-
-  font-size:8.5px;
-
-  color:var(--sub);
-}
-
-
-.choice-foot b{
-  color:var(--green);
-}
-
-
-.compare-summary{
-
-  margin-top:10px;
-
-  padding:
-    11px
-    12px;
-
-  border-radius:11px;
+.compare-row.header{
+  min-height:35px;
 
   background:#f8fafc;
 
-  color:#475467;
+  color:var(--sub);
+
+  font-size:8.5px;
+  font-weight:750;
+}
+
+.compare-row.current{
+  background:#eff6ff;
+}
+
+.compare-cell{
+  padding:9px 10px;
+
+  text-align:right;
 
   font-size:10px;
+}
 
-  font-weight:700;
+.compare-cell:first-child{
+  text-align:left;
+}
+
+.compare-row.current .compare-cell:first-child{
+  color:#1d4ed8;
+
+  font-weight:900;
+}
+
+.compare-cell strong{
+  font-size:12px;
+}
+
+.compare-saving{
+  color:var(--green);
+
+  font-weight:800;
+}
+
+.compare-diff.good{
+  color:var(--green);
+}
+
+.compare-diff.bad{
+  color:var(--orange);
+}
+
+
+/* =========================
+   CONCLUSION
+========================= */
+
+.conclusion{
+  margin-top:10px;
+  padding:13px;
+
+  border-radius:12px;
+
+  background:var(--navy);
+  color:white;
+}
+
+.conclusion-label{
+  color:#bfdbfe;
+
+  font-size:8.5px;
+  font-weight:800;
+}
+
+.conclusion-main{
+  margin-top:3px;
+
+  font-size:13px;
+  font-weight:800;
 
   line-height:1.5;
+}
+
+.conclusion-main strong{
+  color:#93c5fd;
+
+  font-size:17px;
 }
 
 
@@ -1145,57 +891,44 @@ select:focus{
 ========================= */
 
 .method{
-
   margin-top:17px;
 
-  border:
-    1px solid
-    var(--line);
-
+  border:1px solid var(--line);
   border-radius:12px;
 
   background:white;
 }
 
-
 .method summary{
-
-  padding:
-    12px
-    14px;
-
-  cursor:pointer;
+  padding:12px 14px;
 
   color:#667085;
 
-  font-size:9.5px;
+  cursor:pointer;
 
+  font-size:9.5px;
   font-weight:700;
 }
 
-
-.method div{
-
-  padding:
-    0
-    14px
-    13px;
+.method-body{
+  padding:0 14px 13px;
 
   color:#667085;
 
   font-size:9px;
-
   line-height:1.65;
 }
 
+.method-body b{
+  color:#344054;
+}
 
 .footer{
-
   margin-top:13px;
 
-  text-align:center;
-
   color:#98a2b3;
+
+  text-align:center;
 
   font-size:8.5px;
 }
@@ -1205,7 +938,7 @@ select:focus{
    MOBILE
 ========================= */
 
-@media(max-width:860px){
+@media(max-width:850px){
 
   .layout{
     grid-template-columns:1fr;
@@ -1213,68 +946,53 @@ select:focus{
 
 }
 
-
 @media(max-width:560px){
 
   .wrap{
-
-    padding:
-      10px
-      8px
-      38px;
+    padding:10px 8px 38px;
   }
 
-
   .hero{
-
-    padding:
-      20px
-      16px;
+    padding:20px 16px;
 
     border-radius:17px;
   }
-
 
   .advanced-body{
     grid-template-columns:1fr;
   }
 
-
   .actions{
     grid-template-columns:1fr;
   }
 
-
-  .secondary{
+  .reset-btn{
     height:42px;
   }
 
-
-  .equation{
+  .money-grid{
     grid-template-columns:1fr;
   }
 
-
-  .sign{
-
-    transform:rotate(90deg);
-
-    height:16px;
+  .plus-main{
+    align-items:flex-start;
+    flex-direction:column;
   }
 
-
-  .quick{
-    grid-template-columns:1fr;
+  .plus-main span{
+    text-align:left;
   }
 
-
-  .compare-grid{
-    grid-template-columns:1fr;
+  .compare-table{
+    overflow-x:auto;
   }
 
+  .compare-row{
+    min-width:560px;
+  }
 
-  .big-value{
-    font-size:38px;
+  .main-number{
+    font-size:39px;
   }
 
 }
@@ -1294,32 +1012,18 @@ select:focus{
 
 <section class="hero">
 
-  <small>
+  <div class="hero-badge">
     개인사업자 · 2026년 기준
-  </small>
-
+  </div>
 
   <h1>
     장기렌트, 세금 빼면 내 돈은 얼마?
   </h1>
 
-
   <p>
-
-    월 렌트료를 10만원 단위로 바꿔보면서
-
-    <b>
-      월환산 실제부담
-    </b>
-
-    과
-
-    <b>
-      10만원 더 쓸 때 실제 추가부담
-    </b>
-
-    을 바로 비교합니다.
-
+    월 렌트료를 바꿔가며
+    <b>절세액보다 결국 내가 부담하는 금액</b>을
+    바로 비교합니다.
   </p>
 
 </section>
@@ -1335,9 +1039,9 @@ select:focus{
 
 <section class="card panel">
 
-  <div class="head">
+  <div class="title">
 
-    <div class="num">
+    <div class="step">
       1
     </div>
 
@@ -1361,20 +1065,13 @@ select:focus{
     <div class="field">
 
       <label for="taxBand">
-
-        차량비 반영 전
-        예상 종합소득 과세표준
-
+        차량비 반영 전 예상 종합소득 과세표준
       </label>
 
 
       <select id="taxBand">
 
-        <option
-          value=""
-          selected
-          disabled
-        >
+        <option value="" selected disabled>
           선택하세요
         </option>
 
@@ -1414,10 +1111,7 @@ select:focus{
 
 
       <div class="hint">
-
-        선택 구간의 대표 과세표준으로
-        세금효과를 추정합니다.
-
+        선택한 구간의 대표 과세표준으로 추정합니다.
       </div>
 
     </div>
@@ -1431,32 +1125,29 @@ select:focus{
   <div class="group">
 
     <div class="group-title">
-      월 렌트료
+      차량 비용
     </div>
 
 
-    <div class="rent-control">
-
+    <div class="rent-box">
 
       <div class="rent-label">
         월 장기렌트료
       </div>
 
 
-      <div class="stepper">
-
+      <div class="rent-stepper">
 
         <button
           type="button"
-          class="step-btn"
+          class="rent-btn"
           id="rentMinus"
-          aria-label="렌트료 10만원 낮추기"
         >
-          −
+          − 1
         </button>
 
 
-        <div class="rent-value">
+        <div class="rent-number">
 
           <b id="rentDisplay">
             90
@@ -1471,31 +1162,29 @@ select:focus{
 
         <button
           type="button"
-          class="step-btn"
+          class="rent-btn"
           id="rentPlus"
-          aria-label="렌트료 10만원 높이기"
         >
-          ＋
+          + 1
         </button>
-
 
       </div>
 
 
       <input
-        class="slider"
-        id="rentSlider"
         type="range"
+        class="rent-slider"
+        id="rentSlider"
         min="40"
         max="250"
-        step="10"
+        step="1"
         value="90"
       >
 
 
       <input
-        id="rent"
         type="hidden"
+        id="rent"
         value="90"
       >
 
@@ -1507,11 +1196,14 @@ select:focus{
         </span>
 
         <span>
+          1만원 단위
+        </span>
+
+        <span>
           250만원
         </span>
 
       </div>
-
 
     </div>
 
@@ -1526,11 +1218,7 @@ select:focus{
 
       <select id="other">
 
-        <option
-          value=""
-          selected
-          disabled
-        >
+        <option value="" selected disabled>
           선택하세요
         </option>
 
@@ -1558,12 +1246,8 @@ select:focus{
 
 
       <div class="hint">
-
         유류비·통행료 등입니다.
-
-        렌트료에 포함된 항목은
-        중복하지 않습니다.
-
+        렌트료에 포함된 비용은 중복하지 않습니다.
       </div>
 
     </div>
@@ -1621,10 +1305,7 @@ select:focus{
 
         <select id="record">
 
-          <option
-            value="none"
-            selected
-          >
+          <option value="none" selected>
             미작성
           </option>
 
@@ -1659,10 +1340,7 @@ select:focus{
 
         <select id="carCount">
 
-          <option
-            value="first"
-            selected
-          >
+          <option value="first" selected>
             이 차량이 첫 1대
           </option>
 
@@ -1689,10 +1367,7 @@ select:focus{
 
         <select id="insurance">
 
-          <option
-            value="yes"
-            selected
-          >
+          <option value="yes" selected>
             요건 충족
           </option>
 
@@ -1714,8 +1389,8 @@ select:focus{
   <div class="actions">
 
     <button
-      class="primary"
       type="button"
+      class="calc-btn"
       id="calcBtn"
     >
       내 실제 부담 계산
@@ -1723,8 +1398,8 @@ select:focus{
 
 
     <button
-      class="secondary"
       type="button"
+      class="reset-btn"
       id="resetBtn"
     >
       초기화
@@ -1741,19 +1416,18 @@ select:focus{
 ========================= -->
 
 <section
-  class="card result"
+  class="card result-card"
   id="resultCard"
 >
 
   <div class="result-header">
 
-
     <div
-      class="head"
+      class="title"
       style="margin:0"
     >
 
-      <div class="num">
+      <div class="step">
         2
       </div>
 
@@ -1771,7 +1445,6 @@ select:focus{
       계산 전
     </div>
 
-
   </div>
 
 
@@ -1781,34 +1454,34 @@ select:focus{
 
     <!-- MAIN -->
 
-    <div class="big">
+    <div class="main-result">
 
-      <div class="big-label">
+      <div class="main-label">
         월환산 실제 내 부담
       </div>
 
 
       <div
-        class="big-value"
+        class="main-number"
         id="monthlyNet"
       ></div>
 
 
       <div
-        class="big-sub"
-        id="bigSub"
+        class="main-caption"
+        id="mainCaption"
       ></div>
 
     </div>
 
 
 
-    <!-- EQUATION -->
+    <!-- THREE NUMBERS -->
 
-    <div class="equation">
+    <div class="money-grid">
 
 
-      <div class="metric">
+      <div class="money-card">
 
         <span>
           월 차량지출
@@ -1820,12 +1493,7 @@ select:focus{
       </div>
 
 
-      <div class="sign">
-        −
-      </div>
-
-
-      <div class="metric tax">
+      <div class="money-card tax">
 
         <span>
           월환산 절세효과
@@ -1837,15 +1505,10 @@ select:focus{
       </div>
 
 
-      <div class="sign">
-        =
-      </div>
-
-
-      <div class="metric">
+      <div class="money-card net">
 
         <span>
-          월환산 실질부담
+          월환산 내 부담
         </span>
 
         <strong id="monthlyNet2">
@@ -1858,56 +1521,63 @@ select:focus{
 
 
 
-    <!-- QUICK -->
+    <!-- TOTAL -->
 
-    <div class="quick">
-
-
-      <div class="quick-card">
-
-        <h3>
-          세무효율 경계
-        </h3>
+    <div
+      class="total-line"
+      id="totalLine"
+    ></div>
 
 
-        <strong id="ceilingValue">
+
+    <!-- EFFICIENCY -->
+
+    <div class="efficiency">
+
+      <div class="efficiency-left">
+
+        <span>
+          세무상 비용인정 효율 경계
+        </span>
+
+        <strong id="efficiencyValue">
         </strong>
-
-
-        <small id="ceilingSub">
-        </small>
 
       </div>
 
 
-
-      <div class="quick-card decision">
-
-        <h3 id="plusTitle">
-          10만원 더 비싼 차라면
-        </h3>
-
-
-        <strong id="plusNet">
-        </strong>
-
-
-        <small id="plusSub">
-        </small>
-
-      </div>
-
+      <div
+        class="efficiency-badge"
+        id="efficiencyBadge"
+      ></div>
 
     </div>
 
 
 
-    <!-- VERDICT -->
+    <!-- PLUS 10 -->
 
-    <div
-      class="verdict"
-      id="verdict"
-    ></div>
+    <div class="plus-card">
+
+      <div
+        class="plus-title"
+        id="plusTitle"
+      >
+        10만원 더 비싼 차를 선택하면
+      </div>
+
+
+      <div class="plus-main">
+
+        <strong id="plusNet">
+        </strong>
+
+        <span id="plusDescription">
+        </span>
+
+      </div>
+
+    </div>
 
 
 
@@ -1930,33 +1600,66 @@ select:focus{
 ========================= -->
 
 <section
-  class="card compare"
+  class="card compare-card"
   id="compareCard"
 >
 
   <h2>
-    10만원 차이만 비교
+    월 렌트료 비교
   </h2>
 
-
   <p>
-
-    세금이 얼마나 더 줄어드는지보다,
-    결국 내 돈이 얼마나 달라지는지를 봅니다.
-
+    현재 금액에서 10만원 낮춘 경우와 높인 경우만 비교합니다.
   </p>
 
 
-  <div
-    class="compare-grid"
-    id="compareGrid"
-  ></div>
+  <div class="compare-table">
 
 
+    <div class="compare-row header">
+
+      <div class="compare-cell">
+        월 렌트료
+      </div>
+
+      <div class="compare-cell">
+        월 차량지출
+      </div>
+
+      <div class="compare-cell">
+        월 절세효과
+      </div>
+
+      <div class="compare-cell">
+        월 실질부담
+      </div>
+
+    </div>
+
+
+    <div id="compareRows">
+    </div>
+
+
+  </div>
+
+
+
   <div
-    class="compare-summary"
-    id="compareSummary"
-  ></div>
+    class="conclusion"
+    id="conclusion"
+  >
+
+    <div class="conclusion-label">
+      한 줄 결론
+    </div>
+
+    <div
+      class="conclusion-main"
+      id="conclusionText"
+    ></div>
+
+  </div>
 
 </section>
 
@@ -1969,34 +1672,26 @@ select:focus{
 <details class="method">
 
   <summary>
-    계산 기준
+    계산 기준 보기
   </summary>
 
 
-  <div>
+  <div class="method-body">
 
     핵심 계산은
 
     <b>
-      현금지출 − 당해 예상 세금감소 = 세후 실질부담
+      차량 현금지출 − 당해 예상 세금감소 = 세후 실질부담
     </b>
 
     입니다.
 
-    과세표준은 선택 구간의 대표값을 사용합니다.
+    과세표준은 선택한 구간의 대표값을 사용합니다.
 
     <br><br>
 
-    운행기록 미작성 시
-    관련비용 기준으로 업무사용비율을 계산하고,
-
-    일반 자동차대여사업자의 장기렌트는
-    임차료의 70%를 감가상각비 상당액으로 보아
-    당해 한도를 적용합니다.
-
-    <br><br>
-
-    '세무효율 경계'는 추천가격이 아니라
+    세무효율 경계는
+    추천 렌트료가 아니라,
     추가 렌트료의 당해 비용인정 효율이
     낮아지기 시작하는 경계입니다.
 
@@ -2007,11 +1702,8 @@ select:focus{
 
 
 <div class="footer">
-
   의사결정용 추정치입니다.
-  실제 계약·신고 전에는
-  차량종류·렌트계약·보험조건을 확인하세요.
-
+  실제 계약·세무신고 전에는 계약 및 세무조건을 확인하세요.
 </div>
 
 
@@ -2032,53 +1724,21 @@ select:focus{
 
 var TAX_BANDS = [
 
-  {
-    low:350,
-    mid:700,
-    high:1050
-  },
+  {low:350,mid:700,high:1050},
 
-  {
-    low:2300,
-    mid:3200,
-    high:4100
-  },
+  {low:2300,mid:3200,high:4100},
 
-  {
-    low:5950,
-    mid:6900,
-    high:7850
-  },
+  {low:5950,mid:6900,high:7850},
 
-  {
-    low:10350,
-    mid:11900,
-    high:13450
-  },
+  {low:10350,mid:11900,high:13450},
 
-  {
-    low:18750,
-    mid:22500,
-    high:26250
-  },
+  {low:18750,mid:22500,high:26250},
 
-  {
-    low:35000,
-    mid:40000,
-    high:45000
-  },
+  {low:35000,mid:40000,high:45000},
 
-  {
-    low:62500,
-    mid:75000,
-    high:87500
-  },
+  {low:62500,mid:75000,high:87500},
 
-  {
-    low:105000,
-    mid:125000,
-    high:150000
-  }
+  {low:105000,mid:125000,high:150000}
 
 ];
 
@@ -2104,67 +1764,35 @@ var OTHER_BANDS = [
 ========================= */
 
 function el(id){
-
-  return document
-    .getElementById(id);
-
+  return document.getElementById(id);
 }
 
 
 function midpoint(arr){
-
-  return (
-    arr[0]
-    +
-    arr[1]
-  ) / 2;
-
+  return (arr[0]+arr[1])/2;
 }
 
 
-function money(
-  value,
-  digits
-){
+function money(value,digits){
 
-  if(
-    !Number.isFinite(
-      value
-    )
-  ){
-
+  if(!Number.isFinite(value)){
     return "";
-
   }
 
 
-  var d =
-
-    digits === undefined
-
-    ?
-
-    0
-
-    :
-
-    digits;
+  var d=
+    digits===undefined
+    ? 0
+    : digits;
 
 
   return value.toLocaleString(
-
     "ko-KR",
-
     {
       minimumFractionDigits:d,
       maximumFractionDigits:d
     }
-
-  )
-
-  +
-
-  "만원";
+  )+"만원";
 
 }
 
@@ -2176,193 +1804,106 @@ function money(
 
 function nationalTax(x){
 
-  x =
-    Math.max(
-      0,
-      x
-    );
+  x=Math.max(0,x);
 
 
   if(x<=1400){
-
     return x*0.06;
-
   }
-
 
   if(x<=5000){
-
     return 84+(x-1400)*0.15;
-
   }
-
 
   if(x<=8800){
-
     return 624+(x-5000)*0.24;
-
   }
-
 
   if(x<=15000){
-
     return 1536+(x-8800)*0.35;
-
   }
-
 
   if(x<=30000){
-
     return 3706+(x-15000)*0.38;
-
   }
-
 
   if(x<=50000){
-
     return 9406+(x-30000)*0.40;
-
   }
-
 
   if(x<=100000){
-
     return 17406+(x-50000)*0.42;
-
   }
-
 
   return 38406+(x-100000)*0.45;
 
 }
 
 
-
 function localTax(x){
 
-  x =
-    Math.max(
-      0,
-      x
-    );
+  x=Math.max(0,x);
 
 
   if(x<=1400){
-
     return x*0.006;
-
   }
-
 
   if(x<=5000){
-
     return 8.4+(x-1400)*0.015;
-
   }
-
 
   if(x<=8800){
-
     return 62.4+(x-5000)*0.024;
-
   }
-
 
   if(x<=15000){
-
     return 153.6+(x-8800)*0.035;
-
   }
-
 
   if(x<=30000){
-
     return 370.6+(x-15000)*0.038;
-
   }
-
 
   if(x<=50000){
-
     return 940.6+(x-30000)*0.040;
-
   }
-
 
   if(x<=100000){
-
     return 1740.6+(x-50000)*0.042;
-
   }
-
 
   return 3840.6+(x-100000)*0.045;
 
 }
 
 
-
 function totalTax(x){
-
-  return
-    nationalTax(x)
-    +
-    localTax(x);
-
-}
-
-
-
-/*
-  ↑ 중요
-
-  JavaScript ASI 오류를 막기 위해
-  실제 반환식은 같은 줄에 둡니다.
-*/
-
-function safeTotalTax(x){
-
   return nationalTax(x)+localTax(x);
-
 }
 
 
-
-function taxSaving(
+function calculateTaxSaving(
   taxBase,
   deduction
 ){
 
-  var before =
-    safeTotalTax(
-      taxBase
-    );
+  var before=
+    totalTax(taxBase);
 
 
-  var after =
-    safeTotalTax(
-
+  var after=
+    totalTax(
       Math.max(
-
         0,
-
-        taxBase
-        -
-        deduction
-
+        taxBase-deduction
       )
-
     );
 
 
   return Math.max(
-
     0,
-
-    before
-    -
-    after
-
+    before-after
   );
 
 }
@@ -2370,10 +1911,10 @@ function taxSaving(
 
 
 /* =========================
-   VEHICLE
+   VEHICLE CALCULATION
 ========================= */
 
-function vehicleCalc(
+function calculateVehicle(
   monthlyRent,
   monthlyOther,
   months,
@@ -2383,206 +1924,113 @@ function vehicleCalc(
   taxBase
 ){
 
-  var rentTotal =
-    monthlyRent
-    *
+  var rentTotal=
+    monthlyRent*
     months;
 
 
-  var otherTotal =
-    monthlyOther
-    *
+  var otherTotal=
+    monthlyOther*
     months;
 
 
-  var total =
-    rentTotal
-    +
+  var total=
+    rentTotal+
     otherTotal;
 
 
-  /*
-    운행기록 미작성 기준
-  */
-
-  var recordLimit =
-    1500
-    *
-    months
-    /
+  var recordLimit=
+    1500*
+    months/
     12;
 
 
-  /*
-    감가상각비 상당액 한도
-  */
-
-  var depLimit =
-    800
-    *
-    months
-    /
+  var depreciationLimit=
+    800*
+    months/
     12;
 
 
-  /*
-    추가차량 보험
-  */
+  var insuranceFactor=
+    extraCar && !insured
+    ? 0
+    : 1;
 
-  var insuranceFactor =
-
-    (
-      extraCar
-      &&
-      !insured
-    )
-
-    ?
-
-    0
-
-    :
-
-    1;
-
-
-  /*
-    업무사용비율
-  */
 
   var businessRate;
 
 
-  if(
-    record ===
-    "none"
-  ){
+  if(record==="none"){
 
-    businessRate =
+    if(total<=recordLimit){
 
-      total
-      <=
-      recordLimit
+      businessRate=1;
 
-      ?
+    }else{
 
-      1
+      businessRate=
+        recordLimit/
+        total;
 
-      :
+    }
 
-      recordLimit
-      /
-      total;
+  }else{
 
-  }
-
-  else{
-
-    businessRate =
-      Number(
-        record
-      );
+    businessRate=
+      Number(record);
 
   }
 
 
-  /*
-    업무사용금액
-  */
-
-  var businessAmount =
-
-    total
-    *
-    businessRate
-    *
+  var businessAmount=
+    total*
+    businessRate*
     insuranceFactor;
 
 
-  /*
-    임차료 중
-    감가상각비 상당액 70%
-  */
-
-  var depEquivalent =
-
-    rentTotal
-    *
-    0.70
-    *
-    businessRate
-    *
+  var depreciationEquivalent=
+    rentTotal*
+    0.70*
+    businessRate*
     insuranceFactor;
 
 
-  /*
-    당해 한도초과
-  */
-
-  var carry =
-
+  var carryForward=
     Math.max(
-
       0,
-
-      depEquivalent
-      -
-      depLimit
-
+      depreciationEquivalent-
+      depreciationLimit
     );
 
 
-  /*
-    당해 필요경비
-  */
-
-  var deductible =
-
+  var deductible=
     Math.max(
-
       0,
-
-      businessAmount
-      -
-      carry
-
+      businessAmount-
+      carryForward
     );
 
 
-  /*
-    세금감소
-  */
-
-  var saving =
-
-    taxSaving(
-
+  var saving=
+    calculateTaxSaving(
       taxBase,
-
       deductible
-
     );
 
 
   return {
 
-    total:
-      total,
+    total:total,
 
-    businessRate:
-      businessRate,
+    businessRate:businessRate,
 
-    carry:
-      carry,
+    deductible:deductible,
 
-    deductible:
-      deductible,
+    saving:saving,
 
-    saving:
-      saving,
+    carryForward:carryForward,
 
-    insuranceFactor:
-      insuranceFactor
+    insuranceFactor:insuranceFactor
 
   };
 
@@ -2594,18 +2042,13 @@ function vehicleCalc(
    EFFICIENCY CEILING
 ========================= */
 
-function efficiencyCeiling(
+function calculateEfficiencyCeiling(
   state,
   monthlyOther
 ){
 
-  /*
-    보험 조건
-  */
-
   if(
-    state.extraCar
-    &&
+    state.extraCar &&
     !state.insured
   ){
 
@@ -2615,58 +2058,31 @@ function efficiencyCeiling(
 
       ceiling:0,
 
-      reason:
-        "보험요건 확인 필요"
+      reason:"보험조건 확인"
 
     };
 
   }
 
 
-  /*
-    운행기록 미작성
-  */
+  if(state.record==="none"){
 
-  if(
-    state.record
-    ===
-    "none"
-  ){
-
-    /*
-      800 / 70% / 12
-    */
-
-    var depCeiling =
-
-      800
-      /
-      0.70
-      /
+    var depreciationCeiling=
+      800/
+      0.70/
       12;
 
 
-    /*
-      1,500 / 12
-      - 기타 차량비
-    */
-
-    var noLogCeiling =
-
+    var noLogCeiling=
       Math.max(
-
         0,
-
-        1500/12
-        -
+        1500/12-
         monthlyOther
-
       );
 
 
     if(
-      depCeiling
-      <=
+      depreciationCeiling<=
       noLogCeiling
     ){
 
@@ -2675,7 +2091,7 @@ function efficiencyCeiling(
         blocked:false,
 
         ceiling:
-          depCeiling,
+          depreciationCeiling,
 
         reason:
           "감가상각비 상당액 한도"
@@ -2693,21 +2109,15 @@ function efficiencyCeiling(
         noLogCeiling,
 
       reason:
-        "운행기록 미작성 관련비용 기준"
+        "운행기록 미작성 기준"
 
     };
 
   }
 
 
-  /*
-    운행기록 작성
-  */
-
-  var rate =
-    Number(
-      state.record
-    );
+  var rate=
+    Number(state.record);
 
 
   return {
@@ -2715,13 +2125,9 @@ function efficiencyCeiling(
     blocked:false,
 
     ceiling:
-
-      800
-      /
-      0.70
-      /
-      12
-      /
+      800/
+      0.70/
+      12/
       rate,
 
     reason:
@@ -2765,14 +2171,10 @@ function getState(){
       el("record").value,
 
     extraCar:
-      el("carCount").value
-      ===
-      "extra",
+      el("carCount").value==="extra",
 
     insured:
-      el("insurance").value
-      ===
-      "yes"
+      el("insurance").value==="yes"
 
   };
 
@@ -2781,81 +2183,47 @@ function getState(){
 
 
 /* =========================
-   VALIDATION
+   INPUT
 ========================= */
 
-function valid(){
+function validateInputs(){
 
   return (
-
-    el("taxBand").value
-    !==
-    ""
-
-    &&
-
-    el("other").value
-    !==
-    ""
-
+    el("taxBand").value!=="" &&
+    el("other").value!==""
   );
 
 }
 
 
-
-/* =========================
-   RENT CONTROL
-========================= */
-
 function setRent(
   value,
-  dirty
+  clear
 ){
 
-  var next =
-
+  var next=
     Math.max(
-
       40,
-
       Math.min(
-
         250,
-
-        Math.round(
-          value/10
-        )
-        *
-        10
-
+        Math.round(value)
       )
-
     );
 
 
-  el("rent")
-  .value =
-    String(
-      next
-    );
+  el("rent").value=
+    String(next);
 
 
-  el("rentSlider")
-  .value =
-    String(
-      next
-    );
+  el("rentSlider").value=
+    String(next);
 
 
-  el("rentDisplay")
-  .textContent =
-    String(
-      next
-    );
+  el("rentDisplay").textContent=
+    String(next);
 
 
-  if(dirty){
+  if(clear){
 
     clearResults(
       "재계산 필요"
@@ -2871,15 +2239,13 @@ function setRent(
    CLEAR
 ========================= */
 
-function clearResults(
-  status
-){
+function clearResults(status){
 
-  var ids = [
+  var ids=[
 
     "monthlyNet",
 
-    "bigSub",
+    "mainCaption",
 
     "monthlyCash",
 
@@ -2887,73 +2253,49 @@ function clearResults(
 
     "monthlyNet2",
 
-    "ceilingValue",
+    "totalLine",
 
-    "ceilingSub",
+    "efficiencyValue",
 
     "plusNet",
 
-    "plusSub"
+    "plusDescription"
 
   ];
 
 
-  ids.forEach(
+  for(
+    var i=0;
+    i<ids.length;
+    i++
+  ){
 
-    function(id){
+    el(ids[i]).textContent="";
 
-      el(id)
-      .textContent =
-        "";
-
-    }
-
-  );
+  }
 
 
-  el("verdict")
-  .className =
-    "verdict";
+  el("efficiencyBadge").textContent="";
+  el("efficiencyBadge").className=
+    "efficiency-badge";
 
 
-  el("verdict")
-  .innerHTML =
-    "";
-
-
-  el("taxNote")
-  .style
-  .display =
+  el("taxNote").style.display=
     "none";
 
-
-  el("taxNote")
-  .innerHTML =
-    "";
+  el("taxNote").innerHTML="";
 
 
-  el("compareCard")
-  .style
-  .display =
+  el("compareCard").style.display=
     "none";
 
+  el("compareRows").innerHTML="";
 
-  el("compareGrid")
-  .innerHTML =
-    "";
-
-
-  el("compareSummary")
-  .textContent =
-    "";
+  el("conclusionText").innerHTML="";
 
 
-  el("status")
-  .textContent =
-
-    status
-    ||
-    "계산 전";
+  el("status").textContent=
+    status || "계산 전";
 
 }
 
@@ -2968,150 +2310,90 @@ function renderTaxNote(
   result
 ){
 
-  var notes = [];
+  var notes=[];
 
 
   if(
-
-    state.record
-    ===
-    "none"
-
-    &&
-
-    result.businessRate
-    <
-    0.999
-
+    state.record==="none" &&
+    result.businessRate<0.999
   ){
 
     notes.push(
-
-      "운행기록 미작성으로 세법상 업무사용비율이 "
-
-      +
-
+      "운행기록 미작성으로 업무사용비율이 "+
       (
-        result.businessRate
-        *
+        result.businessRate*
         100
-      ).toFixed(1)
-
-      +
-
-      "%로 낮아집니다."
-
+      ).toFixed(1)+
+      "%로 계산됩니다."
     );
 
   }
 
 
-  if(
-    result.carry
-    >
-    0
-  ){
+  if(result.carryForward>0){
 
     notes.push(
-
-      "감가상각비 상당액 "
-
-      +
-
+      "당해 바로 비용처리되지 않는 감가상각비 상당액이 약 "+
       money(
-        result.carry
-      )
-
-      +
-
-      "은 당해연도에 바로 비용처리되지 않고 이후 과세기간으로 이월될 수 있습니다."
-
+        result.carryForward
+      )+
+      " 발생합니다."
     );
 
   }
 
 
-  if(
-    result.insuranceFactor
-    ===
-    0
-  ){
+  if(result.insuranceFactor===0){
 
     notes.push(
-
-      "추가 차량 보험요건 미충족으로 현재 계산에서는 업무사용금액을 0으로 반영했습니다."
-
+      "추가차량 보험요건 미충족으로 업무사용금액을 0으로 반영했습니다."
     );
 
   }
 
 
-  if(
-    notes.length
-    ===
-    0
-  ){
-
+  if(notes.length===0){
     return;
-
   }
 
 
-  el("taxNote")
-  .style
-  .display =
+  el("taxNote").style.display=
     "block";
 
 
-  el("taxNote")
-  .innerHTML =
-
-    "<b>참고</b> · "
-
-    +
-
-    notes.join(
-      " "
-    );
+  el("taxNote").innerHTML=
+    "<b>참고</b> · "+
+    notes.join(" ");
 
 }
 
 
 
 /* =========================
-   VERDICT
+   EFFICIENCY UI
 ========================= */
 
-function renderVerdict(
+function renderEfficiency(
   state,
   efficiency
 ){
 
-  var box =
-    el(
-      "verdict"
-    );
+  var badge=
+    el("efficiencyBadge");
 
 
-  if(
-    efficiency.blocked
-  ){
+  if(efficiency.blocked){
 
-    box.className =
-      "verdict bad";
+    el("efficiencyValue").textContent=
+      "보험조건 확인 필요";
 
 
-    box.innerHTML =
+    badge.textContent=
+      "확인 필요";
 
-      '<span class="dot"></span>'
 
-      +
-
-      '<span>'
-      +
-      '추가 차량의 업무전용자동차보험 요건을 먼저 확인하세요.'
-      +
-      '</span>';
+    badge.className=
+      "efficiency-badge bad";
 
 
     return;
@@ -3119,294 +2401,36 @@ function renderVerdict(
   }
 
 
-  if(
-    state.rent
-    <=
-    efficiency.ceiling
-  ){
-
-    box.className =
-      "verdict good";
-
-
-    box.innerHTML =
-
-      '<span class="dot"></span>'
-
-      +
-
-      '<span>'
-
-      +
-
-      money(
-        state.rent
-      )
-
-      +
-
-      '은 당해 비용인정 효율이 유지되는 구간입니다.'
-
-      +
-
-      '</span>';
-
-
-    return;
-
-  }
-
-
-  box.className =
-    "verdict warn";
-
-
-  box.innerHTML =
-
-    '<span class="dot"></span>'
-
-    +
-
-    '<span>'
-
-    +
-
-    money(
-      state.rent
-    )
-
-    +
-
-    '은 세무효율 경계 '
-
-    +
-
+  el("efficiencyValue").textContent=
+    "월 약 "+
     money(
       efficiency.ceiling,
       1
-    )
-
-    +
-
-    '를 넘습니다.'
-
-    +
-
-    '</span>';
-
-}
-
-
-
-/* =========================
-   COMPARE ITEM
-========================= */
-
-function compareItem(
-  rent,
-  label,
-  state,
-  taxBase,
-  other,
-  currentNet
-){
-
-  var result =
-
-    vehicleCalc(
-
-      rent,
-
-      other,
-
-      state.months,
-
-      state.record,
-
-      state.extraCar,
-
-      state.insured,
-
-      taxBase
-
     );
 
 
-  var monthlyNet =
-
-    (
-      result.total
-      -
-      result.saving
-    )
-
-    /
-    state.months;
-
-
-  var monthlySaving =
-
-    result.saving
-    /
-    state.months;
-
-
-  var delta =
-
-    monthlyNet
-    -
-    currentNet;
-
-
-  var cssClass =
-
-    rent
-    ===
-    state.rent
-
-    ?
-
-    "choice current"
-
-    :
-
-    "choice";
-
-
-  var deltaText;
-
-
   if(
-    rent
-    ===
-    state.rent
+    state.rent<=
+    efficiency.ceiling
   ){
 
-    deltaText =
-      "기준";
+    badge.textContent=
+      "현재는 경계 안쪽";
+
+
+    badge.className=
+      "efficiency-badge good";
+
+  }else{
+
+    badge.textContent=
+      "현재는 경계 초과";
+
+
+    badge.className=
+      "efficiency-badge warn";
 
   }
-
-  else if(
-    delta
-    >
-    0
-  ){
-
-    deltaText =
-
-      "+"
-
-      +
-
-      money(
-        delta,
-        1
-      );
-
-  }
-
-  else{
-
-    deltaText =
-
-      "−"
-
-      +
-
-      money(
-        Math.abs(
-          delta
-        ),
-        1
-      );
-
-  }
-
-
-  return (
-
-    '<div class="'
-    +
-    cssClass
-    +
-    '">'
-
-    +
-
-    '<div class="choice-tag">'
-    +
-    label
-    +
-    '</div>'
-
-    +
-
-    '<div class="choice-rent">'
-    +
-    money(
-      rent
-    )
-    +
-    '</div>'
-
-    +
-
-    '<div class="choice-main">'
-    +
-    '월환산 실제 내 부담'
-    +
-    '<strong>'
-    +
-    money(
-      monthlyNet,
-      1
-    )
-    +
-    '</strong>'
-    +
-    '</div>'
-
-    +
-
-    '<div class="choice-foot">'
-
-    +
-
-    '<span>'
-    +
-    '절세 월환산 '
-    +
-    '<b>'
-    +
-    money(
-      monthlySaving,
-      1
-    )
-    +
-    '</b>'
-    +
-    '</span>'
-
-    +
-
-    '<span>'
-    +
-    '부담 '
-    +
-    deltaText
-    +
-    '</span>'
-
-    +
-
-    '</div>'
-
-    +
-
-    '</div>'
-
-  );
 
 }
 
@@ -3416,183 +2440,281 @@ function compareItem(
    COMPARE
 ========================= */
 
-function renderCompare(
+function createCompareRow(
+  rent,
   state,
   taxBase,
-  other,
+  monthlyOther,
   currentMonthlyNet
 ){
 
-  var rents = [];
+  var result=
+    calculateVehicle(
+      rent,
+      monthlyOther,
+      state.months,
+      state.record,
+      state.extraCar,
+      state.insured,
+      taxBase
+    );
 
 
-  if(
-    state.rent
-    >
-    40
-  ){
+  var monthlyCash=
+    result.total/
+    state.months;
 
-    rents.push({
 
-      value:
-        state.rent-10,
+  var monthlySaving=
+    result.saving/
+    state.months;
 
-      label:
-        "10만원 낮춤"
 
-    });
+  var monthlyNet=
+    (
+      result.total-
+      result.saving
+    )/
+    state.months;
+
+
+  var diff=
+    monthlyNet-
+    currentMonthlyNet;
+
+
+  var row=
+    document.createElement(
+      "div"
+    );
+
+
+  row.className=
+    "compare-row";
+
+
+  if(rent===state.rent){
+
+    row.classList.add(
+      "current"
+    );
 
   }
 
 
-  rents.push({
-
-    value:
-      state.rent,
-
-    label:
-      "현재"
-
-  });
+  var rentText=
+    money(rent);
 
 
-  if(
-    state.rent
-    <
-    250
-  ){
+  if(rent===state.rent){
 
-    rents.push({
-
-      value:
-        state.rent+10,
-
-      label:
-        "10만원 높임"
-
-    });
+    rentText+=" · 현재";
 
   }
 
 
-  el("compareGrid")
-  .innerHTML =
-
-    rents
-    .map(
-
-      function(item){
-
-        return compareItem(
-
-          item.value,
-
-          item.label,
-
-          state,
-
-          taxBase,
-
-          other,
-
-          currentMonthlyNet
-
-        );
-
-      }
-
-    )
-    .join("");
+  var diffText="";
+  var diffClass="";
 
 
-  if(
+  if(rent===state.rent){
+
+    diffText="기준";
+
+  }else if(diff>0){
+
+    diffText=
+      "+"+
+      money(
+        diff,
+        1
+      );
+
+    diffClass="bad";
+
+  }else{
+
+    diffText=
+      "−"+
+      money(
+        Math.abs(diff),
+        1
+      );
+
+    diffClass="good";
+
+  }
+
+
+  row.innerHTML=
+
+    '<div class="compare-cell">'+
+    '<strong>'+
+    rentText+
+    '</strong>'+
+    '</div>'+
+
+    '<div class="compare-cell">'+
+    money(
+      monthlyCash,
+      1
+    )+
+    '</div>'+
+
+    '<div class="compare-cell compare-saving">'+
+    money(
+      monthlySaving,
+      1
+    )+
+    '</div>'+
+
+    '<div class="compare-cell">'+
+    '<strong>'+
+    money(
+      monthlyNet,
+      1
+    )+
+    '</strong>'+
+    '<br>'+
+    '<span class="compare-diff '+
+    diffClass+
+    '">'+
+    diffText+
+    '</span>'+
+    '</div>';
+
+
+  return row;
+
+}
+
+
+
+/* =========================
+   RENDER COMPARE
+========================= */
+
+function renderCompare(
+  state,
+  taxBase,
+  monthlyOther,
+  currentMonthlyNet
+){
+
+  var rents=[];
+
+
+  if(state.rent>=50){
+
+    rents.push(
+      state.rent-10
+    );
+
+  }
+
+
+  rents.push(
     state.rent
-    <
-    250
+  );
+
+
+  if(state.rent<=240){
+
+    rents.push(
+      state.rent+10
+    );
+
+  }
+
+
+  var container=
+    el("compareRows");
+
+
+  container.innerHTML="";
+
+
+  for(
+    var i=0;
+    i<rents.length;
+    i++
   ){
 
-    var current =
+    container.appendChild(
 
-      vehicleCalc(
+      createCompareRow(
+        rents[i],
+        state,
+        taxBase,
+        monthlyOther,
+        currentMonthlyNet
+      )
 
+    );
+
+  }
+
+
+  /*
+    +10만원 한 줄 결론
+  */
+
+  if(state.rent<=240){
+
+    var current=
+      calculateVehicle(
         state.rent,
-
-        other,
-
+        monthlyOther,
         state.months,
-
         state.record,
-
         state.extraCar,
-
         state.insured,
-
         taxBase
-
       );
 
 
-    var higher =
-
-      vehicleCalc(
-
+    var higher=
+      calculateVehicle(
         state.rent+10,
-
-        other,
-
+        monthlyOther,
         state.months,
-
         state.record,
-
         state.extraCar,
-
         state.insured,
-
         taxBase
-
       );
 
 
-    var moreSaving =
-
+    var currentNet=
       (
-        higher.saving
-        -
+        current.total-
         current.saving
-      )
-
-      /
+      )/
       state.months;
 
 
-    var moreNet =
-
+    var higherNet=
       (
-        (
-          higher.total
-          -
-          higher.saving
-        )
-
-        -
-
-        (
-          current.total
-          -
-          current.saving
-        )
-      )
-
-      /
+        higher.total-
+        higher.saving
+      )/
       state.months;
 
 
-    el("compareSummary")
-    .innerHTML =
+    var extraSaving=
+      (
+        higher.saving-
+        current.saving
+      )/
+      state.months;
 
-      '<b>'
 
-      +
+    var extraNet=
+      higherNet-
+      currentNet;
+
+
+    el("conclusionText").innerHTML=
 
       money(
         state.rent+10
@@ -3600,52 +2722,55 @@ function renderCompare(
 
       +
 
-      ' 차량</b>을 선택하면 절세효과는 월환산 약 '
+      " 차량을 선택하면 세금은 월환산 "
 
       +
 
-      '<b>'
+      "<strong>"
 
       +
 
       money(
-        moreSaving,
+        extraSaving,
         1
       )
 
       +
 
-      '</b> 더 커지지만, 실제 내 부담은 월환산 약 '
+      "</strong>"
 
       +
 
-      '<b>'
+      " 더 줄지만, 결국 내 돈은 "
+
+      +
+
+      "<strong>"
 
       +
 
       money(
-        moreNet,
+        extraNet,
         1
       )
 
       +
 
-      '</b> 더 늘어납니다.';
+      "</strong>"
+
+      +
+
+      " 더 들어갑니다.";
+
+  }else{
+
+    el("conclusionText").textContent=
+      "현재가 최대 비교 금액입니다.";
 
   }
 
-  else{
 
-    el("compareSummary")
-    .textContent =
-      "현재가 최대 선택금액입니다.";
-
-  }
-
-
-  el("compareCard")
-  .style
-  .display =
+  el("compareCard").style.display=
     "block";
 
 }
@@ -3658,14 +2783,10 @@ function renderCompare(
 
 function calculate(){
 
-  if(
-    !valid()
-  ){
+  if(!validateInputs()){
 
     alert(
-
-      "과세표준과 월 기타 차량비를 선택해 주세요."
-
+      "예상 종합소득 과세표준과 기타 차량비를 선택해 주세요."
     );
 
     return;
@@ -3676,158 +2797,102 @@ function calculate(){
   try{
 
 
-    var state =
+    var state=
       getState();
 
 
-    var taxBase =
-
+    var taxBase=
       TAX_BANDS[
         state.taxBand
       ].mid;
 
 
-    var other =
-
+    var monthlyOther=
       midpoint(
-
         OTHER_BANDS[
           state.other
         ]
-
       );
 
 
     /*
-      현재
+      현재 차량
     */
 
-    var current =
-
-      vehicleCalc(
-
+    var current=
+      calculateVehicle(
         state.rent,
-
-        other,
-
+        monthlyOther,
         state.months,
-
         state.record,
-
         state.extraCar,
-
         state.insured,
-
         taxBase
-
       );
 
 
-    var monthlyCash =
-
-      current.total
-      /
+    var monthlyCash=
+      current.total/
       state.months;
 
 
-    var monthlySaving =
-
-      current.saving
-      /
+    var monthlySaving=
+      current.saving/
       state.months;
 
 
-    var monthlyNet =
+    var totalNet=
+      current.total-
+      current.saving;
 
-      (
-        current.total
-        -
-        current.saving
-      )
 
-      /
+    var monthlyNet=
+      totalNet/
       state.months;
-
-
-    /*
-      세무효율 경계
-    */
-
-    var efficiency =
-
-      efficiencyCeiling(
-
-        state,
-
-        other
-
-      );
 
 
     /*
       MAIN
     */
 
-    el("monthlyNet")
-    .textContent =
-
+    el("monthlyNet").textContent=
       money(
         monthlyNet,
         1
       );
 
 
-    el("bigSub")
-    .textContent =
-
-      "월 렌트 "
-
-      +
-
+    el("mainCaption").textContent=
+      "월 렌트 "+
       money(
         state.rent
-      )
-
-      +
-
-      " + 기타비 약 "
-
-      +
-
+      )+
+      " + 기타 차량비 약 "+
       money(
-        other
-      )
-
-      +
-
+        monthlyOther
+      )+
       " 기준";
 
 
     /*
-      EQUATION
+      3 NUMBERS
     */
 
-    el("monthlyCash")
-    .textContent =
-
+    el("monthlyCash").textContent=
       money(
         monthlyCash,
         1
       );
 
 
-    el("monthlySaving")
-    .textContent =
-
+    el("monthlySaving").textContent=
       money(
         monthlySaving,
         1
       );
 
 
-    el("monthlyNet2")
-    .textContent =
-
+    el("monthlyNet2").textContent=
       money(
         monthlyNet,
         1
@@ -3835,247 +2900,195 @@ function calculate(){
 
 
     /*
-      CEILING
+      TOTAL
     */
 
-    if(
-      efficiency.blocked
-    ){
+    el("totalLine").innerHTML=
 
-      el("ceilingValue")
-      .textContent =
-        "확인 필요";
+      "<span>"
 
+      +
 
-      el("ceilingSub")
-      .textContent =
+      state.months
 
-        efficiency.reason;
+      +
 
-    }
+      "개월 합계"
 
-    else{
+      +
 
-      el("ceilingValue")
-      .textContent =
+      "</span>"
 
-        "약 "
+      +
 
-        +
+      "<strong>현금 "
 
-        money(
-          efficiency.ceiling,
-          1
-        );
+      +
 
+      money(
+        current.total
+      )
 
-      el("ceilingSub")
-      .textContent =
+      +
 
-        efficiency.reason
+      " − 세금 "
 
-        +
+      +
 
-        " 기준";
+      money(
+        current.saving
+      )
 
-    }
+      +
+
+      " = 내 부담 "
+
+      +
+
+      money(
+        totalNet
+      )
+
+      +
+
+      "</strong>";
 
 
     /*
-      +10만원
+      EFFICIENCY
     */
 
-    if(
-      state.rent
-      <
-      250
-    ){
+    var efficiency=
+      calculateEfficiencyCeiling(
+        state,
+        monthlyOther
+      );
 
-      var higher =
 
-        vehicleCalc(
+    renderEfficiency(
+      state,
+      efficiency
+    );
 
+
+    /*
+      PLUS 10
+    */
+
+    if(state.rent<=240){
+
+      var higher=
+        calculateVehicle(
           state.rent+10,
-
-          other,
-
+          monthlyOther,
           state.months,
-
           state.record,
-
           state.extraCar,
-
           state.insured,
-
           taxBase
-
         );
 
 
-      var plusSaving =
-
+      var higherNet=
         (
+          higher.total-
           higher.saving
-          -
-          current.saving
-        )
-
-        /
+        )/
         state.months;
 
 
-      var plusNet =
-
+      var extraSaving=
         (
-          (
-            higher.total
-            -
-            higher.saving
-          )
-
-          -
-
-          (
-            current.total
-            -
-            current.saving
-          )
-        )
-
-        /
+          higher.saving-
+          current.saving
+        )/
         state.months;
 
 
-      el("plusTitle")
-      .textContent =
+      var extraNet=
+        higherNet-
+        monthlyNet;
 
+
+      el("plusTitle").textContent=
         money(
           state.rent+10
-        )
-
-        +
-
-        " 차량이라면";
+        )+
+        " 차량을 선택하면";
 
 
-      el("plusNet")
-      .textContent =
-
-        "+"
-
-        +
-
+      el("plusNet").textContent=
+        "내 돈 +"+
         money(
-          plusNet,
+          extraNet,
           1
         );
 
 
-      el("plusSub")
-      .textContent =
-
-        "절세효과는 월환산 "
-
-        +
-
+      el("plusDescription").textContent=
+        "월 지출은 10만원 늘고, 세금은 약 "+
         money(
-          plusSaving,
+          extraSaving,
           1
-        )
+        )+
+        " 더 줄어듭니다.";
 
-        +
+    }else{
 
-        " 더 커집니다.";
-
-    }
-
-    else{
-
-      el("plusTitle")
-      .textContent =
-        "현재 최대 선택금액";
+      el("plusTitle").textContent=
+        "현재 최대 렌트료";
 
 
-      el("plusNet")
-      .textContent =
+      el("plusNet").textContent=
         "—";
 
 
-      el("plusSub")
-      .textContent =
+      el("plusDescription").textContent=
         "";
 
     }
 
 
     /*
-      ETC
+      NOTES
     */
 
-    renderVerdict(
-
-      state,
-
-      efficiency
-
-    );
-
-
     renderTaxNote(
-
       state,
-
       current
-
     );
 
+
+    /*
+      COMPARE
+    */
 
     renderCompare(
-
       state,
-
       taxBase,
-
-      other,
-
+      monthlyOther,
       monthlyNet
-
     );
 
 
-    el("status")
-    .textContent =
+    el("status").textContent=
       "계산 완료";
 
 
-    if(
-      window.innerWidth
-      <
-      861
-    ){
+    if(window.innerWidth<851){
 
-      el("resultCard")
-      .scrollIntoView({
-
-        behavior:
-          "smooth",
-
-        block:
-          "start"
-
+      el("resultCard").scrollIntoView({
+        behavior:"smooth",
+        block:"start"
       });
 
     }
 
 
-  }
-
-  catch(error){
+  }catch(error){
 
 
-    console.error(
-      error
-    );
+    console.error(error);
 
 
     clearResults(
@@ -4084,13 +3097,8 @@ function calculate(){
 
 
     alert(
-
-      "계산 중 오류가 발생했습니다.\n"
-
-      +
-
+      "계산 중 오류가 발생했습니다.\n"+
       error.message
-
     );
 
   }
@@ -4105,22 +3113,10 @@ function calculate(){
 
 function toggleInsurance(){
 
-  el("insuranceWrap")
-  .style
-  .display =
-
-    el("carCount")
-    .value
-    ===
-    "extra"
-
-    ?
-
-    "flex"
-
-    :
-
-    "none";
+  el("insuranceWrap").style.display=
+    el("carCount").value==="extra"
+    ? "flex"
+    : "none";
 
 }
 
@@ -4132,34 +3128,14 @@ function toggleInsurance(){
 
 function resetAll(){
 
-  el("taxBand")
-  .value =
-    "";
+  el("taxBand").value="";
+  el("other").value="";
 
+  el("months").value="12";
+  el("record").value="none";
 
-  el("other")
-  .value =
-    "";
-
-
-  el("months")
-  .value =
-    "12";
-
-
-  el("record")
-  .value =
-    "none";
-
-
-  el("carCount")
-  .value =
-    "first";
-
-
-  el("insurance")
-  .value =
-    "yes";
+  el("carCount").value="first";
+  el("insurance").value="yes";
 
 
   setRent(
@@ -4183,11 +3159,8 @@ function resetAll(){
    START
 ========================= */
 
-document
-.addEventListener(
-
+document.addEventListener(
   "DOMContentLoaded",
-
   function(){
 
 
@@ -4203,13 +3176,9 @@ document
       계산
     */
 
-    el("calcBtn")
-    .addEventListener(
-
+    el("calcBtn").addEventListener(
       "click",
-
       calculate
-
     );
 
 
@@ -4217,151 +3186,108 @@ document
       초기화
     */
 
-    el("resetBtn")
-    .addEventListener(
-
+    el("resetBtn").addEventListener(
       "click",
-
       resetAll
-
     );
 
 
     /*
-      -10
+      -1만원
     */
 
-    el("rentMinus")
-    .addEventListener(
-
+    el("rentMinus").addEventListener(
       "click",
-
       function(){
 
         setRent(
-
           Number(
             el("rent").value
-          )
-          -
-          10,
-
+          )-1,
           true
-
         );
 
       }
-
     );
 
 
     /*
-      +10
+      +1만원
     */
 
-    el("rentPlus")
-    .addEventListener(
-
+    el("rentPlus").addEventListener(
       "click",
-
       function(){
 
         setRent(
-
           Number(
             el("rent").value
-          )
-          +
-          10,
-
+          )+1,
           true
-
         );
 
       }
-
     );
 
 
     /*
-      SLIDER
+      슬라이더
     */
 
-    el("rentSlider")
-    .addEventListener(
-
+    el("rentSlider").addEventListener(
       "input",
-
       function(){
 
         setRent(
-
           Number(
             this.value
           ),
-
           true
-
         );
 
       }
-
     );
 
 
     /*
-      SELECT 변경
+      기타 입력 변경
     */
 
-    var changeIds = [
-
+    var ids=[
       "taxBand",
-
       "other",
-
       "months",
-
       "record",
-
       "carCount",
-
       "insurance"
-
     ];
 
 
-    changeIds.forEach(
+    for(
+      var i=0;
+      i<ids.length;
+      i++
+    ){
 
-      function(id){
+      el(ids[i]).addEventListener(
+        "change",
+        function(){
 
-        el(id)
-        .addEventListener(
+          toggleInsurance();
 
-          "change",
+          clearResults(
+            "재계산 필요"
+          );
 
-          function(){
+        }
+      );
 
-            toggleInsurance();
-
-            clearResults(
-              "재계산 필요"
-            );
-
-          }
-
-        );
-
-      }
-
-    );
-
+    }
 
   }
-
 );
 
 })();
-
 </script>
 
 </body>
