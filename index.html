@@ -1,293 +1,1504 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="2026년 개인사업자 장기렌트 절세 추정 계산기" />
-  <title>개인사업자 장기렌트 절세 계산기</title>
-  <style>
-    :root{
-      --bg:#f6f8fb; --panel:#ffffff; --text:#172033; --muted:#667085; --line:#e4e7ec;
-      --brand:#155eef; --brand-soft:#eff4ff; --good:#067647; --good-soft:#ecfdf3;
-      --warn:#b54708; --warn-soft:#fffaeb; --danger:#b42318; --danger-soft:#fef3f2;
-      --shadow:0 10px 28px rgba(16,24,40,.07);
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;line-height:1.55}
-    a{color:var(--brand)}
-    .wrap{max-width:1120px;margin:0 auto;padding:28px 18px 56px}
-    header{display:flex;gap:18px;justify-content:space-between;align-items:flex-start;margin-bottom:22px}
-    h1{font-size:clamp(26px,4vw,38px);line-height:1.2;margin:0 0 8px;letter-spacing:-.03em}
-    h2{font-size:20px;margin:0 0 14px;letter-spacing:-.02em}
-    h3{font-size:16px;margin:0 0 8px}
-    .sub{color:var(--muted);margin:0;max-width:780px}
-    .badge{white-space:nowrap;border:1px solid #b2ccff;background:var(--brand-soft);color:#1849a9;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:700}
-    .grid{display:grid;grid-template-columns:1.02fr .98fr;gap:18px;align-items:start}
-    .panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
-    .controls{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .field{display:flex;flex-direction:column;gap:6px}
-    .field.full{grid-column:1/-1}
-    label{font-size:13px;font-weight:700;color:#344054}
-    select{width:100%;border:1px solid #d0d5dd;border-radius:12px;padding:11px 12px;background:#fff;color:var(--text);font-size:15px;outline:none}
-    select:focus{border-color:#84adff;box-shadow:0 0 0 3px rgba(21,94,239,.12)}
-    .hint{font-size:12px;color:var(--muted)}
-    .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
-    .stat{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fcfcfd}
-    .stat .k{font-size:12px;color:var(--muted);margin-bottom:5px}
-    .stat .v{font-size:24px;font-weight:800;letter-spacing:-.03em}
-    .stat .s{font-size:12px;color:var(--muted);margin-top:3px}
-    .callout{border-radius:14px;padding:14px 15px;margin-top:12px;border:1px solid}
-    .callout.good{background:var(--good-soft);border-color:#abefc6;color:#05603a}
-    .callout.warn{background:var(--warn-soft);border-color:#fedf89;color:#93370d}
-    .callout.danger{background:var(--danger-soft);border-color:#fecdca;color:#912018}
-    .callout strong{display:block;margin-bottom:4px}
-    .meters{display:grid;gap:12px;margin-top:14px}
-    .meter-row{display:grid;grid-template-columns:140px 1fr 86px;gap:10px;align-items:center;font-size:13px}
-    .track{height:10px;border-radius:999px;background:#eaecf0;overflow:hidden}
-    .fill{height:100%;background:var(--brand);border-radius:999px;transition:width .2s ease}
-    .right{text-align:right;font-variant-numeric:tabular-nums}
-    .section{margin-top:18px}
-    .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:#fff}
-    table{width:100%;border-collapse:collapse;min-width:760px;font-size:13px}
-    th,td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
-    th:first-child,td:first-child{text-align:left}
-    th{background:#f9fafb;color:#475467;font-weight:700}
-    tr:last-child td{border-bottom:0}
-    tr.active{background:var(--brand-soft)}
-    .pill{display:inline-block;padding:3px 8px;border-radius:999px;background:#f2f4f7;color:#475467;font-size:11px}
-    .explain{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-    .mini{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff}
-    .mini p{margin:0;color:var(--muted);font-size:13px}
-    .formula{font-weight:800;color:var(--text);display:block;margin:5px 0}
-    .notice{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;color:#475467;font-size:13px}
-    .notice ul{margin:8px 0 0;padding-left:20px}
-    .sources{margin-top:18px;font-size:12px;color:var(--muted)}
-    .sources a{word-break:break-all}
-    footer{margin-top:22px;color:var(--muted);font-size:12px;text-align:center}
-    @media (max-width:860px){.grid{grid-template-columns:1fr}.explain{grid-template-columns:1fr}.badge{display:none}}
-    @media (max-width:560px){.wrap{padding:18px 12px 40px}.panel{padding:16px;border-radius:15px}.controls,.stats{grid-template-columns:1fr}.field.full{grid-column:auto}.meter-row{grid-template-columns:110px 1fr 72px}.stat .v{font-size:22px}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개인사업자 장기렌트 절세 계산기</title>
+
+<style>
+:root{
+  --navy:#102a4c;
+  --blue:#2563eb;
+  --blue-dark:#1d4ed8;
+  --bg:#f4f7fb;
+  --white:#fff;
+  --text:#172033;
+  --sub:#667085;
+  --line:#e4e7ec;
+  --green:#067647;
+  --green-bg:#ecfdf3;
+  --orange:#b54708;
+  --orange-bg:#fffaeb;
+  --red:#b42318;
+  --red-bg:#fef3f2;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.container{
+  max-width:1160px;
+  margin:auto;
+  padding:28px 16px 60px;
+}
+
+.hero{
+  background:linear-gradient(135deg,#102a4c,#245ea8);
+  color:white;
+  padding:30px;
+  border-radius:24px;
+  margin-bottom:20px;
+}
+
+.hero h1{
+  margin:0 0 10px;
+  font-size:36px;
+  letter-spacing:-1.5px;
+}
+
+.hero p{
+  margin:0;
+  color:#dbeafe;
+  font-size:15px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  align-items:start;
+}
+
+.card{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:20px;
+  box-shadow:0 10px 28px rgba(16,24,40,.06);
+}
+
+.input{
+  padding:22px;
+}
+
+.title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.step{
+  width:30px;
+  height:30px;
+  background:var(--navy);
+  color:white;
+  border-radius:9px;
+  display:grid;
+  place-items:center;
+  font-weight:800;
+  font-size:13px;
+}
+
+.title h2{
+  font-size:20px;
+  margin:0;
+}
+
+.section{
+  padding:17px 0;
+  border-top:1px solid var(--line);
+}
+
+.section:first-of-type{
+  border-top:0;
+  padding-top:0;
+}
+
+.section-name{
+  font-size:13px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+.fields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+label{
+  font-size:13px;
+  font-weight:700;
+}
+
+select{
+  height:48px;
+  border:1px solid #d0d5dd;
+  border-radius:12px;
+  padding:0 12px;
+  background:white;
+  color:var(--text);
+  font-size:14px;
+}
+
+select:focus{
+  outline:none;
+  border-color:#84adff;
+  box-shadow:0 0 0 3px rgba(37,99,235,.1);
+}
+
+.help{
+  font-size:11px;
+  color:var(--sub);
+  line-height:1.5;
+}
+
+.dirty{
+  display:none;
+  margin:13px 0 9px;
+  padding:10px 12px;
+  background:var(--orange-bg);
+  color:var(--orange);
+  border-radius:10px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.dirty.show{
+  display:block;
+}
+
+.buttons{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:9px;
+  margin-top:14px;
+}
+
+.calculate{
+  height:55px;
+  border:0;
+  background:var(--blue);
+  color:white;
+  border-radius:13px;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.calculate:hover{
+  background:var(--blue-dark);
+}
+
+.reset{
+  height:55px;
+  padding:0 18px;
+  border:1px solid #d0d5dd;
+  background:white;
+  border-radius:13px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* 결과 */
+
+.result{
+  overflow:hidden;
+  min-height:560px;
+}
+
+.result-head{
+  padding:20px 22px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.status{
+  font-size:11px;
+  color:var(--sub);
+}
+
+.placeholder{
+  min-height:475px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:30px;
+}
+
+.placeholder-icon{
+  margin:auto;
+  width:66px;
+  height:66px;
+  display:grid;
+  place-items:center;
+  border-radius:20px;
+  background:#eff6ff;
+  color:var(--blue);
+  font-size:28px;
+  font-weight:900;
+}
+
+.placeholder h3{
+  margin:15px 0 5px;
+}
+
+.placeholder p{
+  color:var(--sub);
+  font-size:13px;
+}
+
+.results{
+  display:none;
+}
+
+.results.show{
+  display:block;
+}
+
+.main-saving{
+  padding:25px 22px;
+  background:linear-gradient(#f7fbff,#fff);
+  border-bottom:1px solid var(--line);
+}
+
+.main-saving small{
+  font-weight:700;
+  color:#475467;
+}
+
+.main-saving strong{
+  display:block;
+  margin:4px 0;
+  font-size:44px;
+  color:var(--blue);
+  letter-spacing:-2px;
+}
+
+.main-saving span{
+  font-size:12px;
+  color:var(--sub);
+}
+
+.kpis{
+  padding:15px 18px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.kpi{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:13px;
+}
+
+.kpi.green{
+  background:var(--green-bg);
+  border-color:#abefc6;
+}
+
+.kpi small{
+  color:var(--sub);
+  font-size:11px;
+}
+
+.kpi strong{
+  display:block;
+  font-size:20px;
+  margin-top:4px;
+}
+
+.kpi.green strong{
+  color:var(--green);
+}
+
+.kpi p{
+  margin:4px 0 0;
+  color:var(--sub);
+  font-size:10px;
+}
+
+.verdict{
+  margin:0 18px 16px;
+  padding:13px 14px;
+  border-radius:13px;
+  font-size:12px;
+}
+
+.verdict strong{
+  display:block;
+  font-size:13px;
+  margin-bottom:4px;
+}
+
+.good{
+  background:var(--green-bg);
+  color:#05603a;
+}
+
+.warn{
+  background:var(--orange-bg);
+  color:#93370d;
+}
+
+.danger{
+  background:var(--red-bg);
+  color:var(--red);
+}
+
+.detail{
+  padding:0 18px 20px;
+}
+
+.detail-row{
+  display:flex;
+  justify-content:space-between;
+  padding:9px 0;
+  border-bottom:1px dashed var(--line);
+  font-size:12px;
+}
+
+.detail-row span{
+  color:var(--sub);
+}
+
+/* 비교표 */
+
+.compare{
+  margin-top:18px;
+  padding:22px;
+}
+
+.compare h2{
+  margin:0;
+  font-size:19px;
+}
+
+.compare > p{
+  margin:5px 0 13px;
+  color:var(--sub);
+  font-size:12px;
+}
+
+.table{
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:14px;
+}
+
+table{
+  width:100%;
+  min-width:760px;
+  border-collapse:collapse;
+  font-size:12px;
+}
+
+th,td{
+  padding:11px;
+  text-align:right;
+  border-bottom:1px solid var(--line);
+}
+
+th{
+  background:#f9fafb;
+  color:#475467;
+}
+
+th:first-child,
+td:first-child{
+  text-align:left;
+}
+
+.active-row{
+  background:#eff6ff;
+}
+
+.badge{
+  display:inline-block;
+  background:#dbeafe;
+  color:#1d4ed8;
+  font-size:9px;
+  font-weight:800;
+  padding:2px 6px;
+  border-radius:20px;
+}
+
+.rules{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:18px;
+}
+
+.rule{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+}
+
+.rule strong{
+  display:block;
+  color:var(--blue);
+  font-size:12px;
+}
+
+.rule h3{
+  font-size:15px;
+  margin:5px 0;
+}
+
+.rule p{
+  color:var(--sub);
+  font-size:12px;
+  margin:0;
+}
+
+.disclaimer{
+  background:white;
+  margin-top:18px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:16px;
+  color:var(--sub);
+  font-size:11px;
+}
+
+@media(max-width:880px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .result{
+    min-height:auto;
+  }
+
+  .placeholder{
+    min-height:280px;
+  }
+}
+
+@media(max-width:580px){
+  .container{
+    padding:12px 10px 40px;
+  }
+
+  .hero{
+    padding:22px 18px;
+    border-radius:18px;
+  }
+
+  .hero h1{
+    font-size:27px;
+  }
+
+  .fields{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+
+  .buttons{
+    grid-template-columns:1fr;
+  }
+
+  .reset{
+    height:44px;
+  }
+
+  .kpis{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .kpi:last-child{
+    grid-column:1/-1;
+  }
+
+  .rules{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
+
 <body>
-  <main class="wrap">
-    <header>
-      <div>
-        <h1>개인사업자 장기렌트 절세 계산기</h1>
-        <p class="sub">정확한 소득금액을 넣지 않고 <b>과세표준 구간</b>과 <b>렌트료 구간</b>만 선택해, 당해연도 비용 인정액·예상 절세액·세후 실부담을 추정합니다.</p>
+
+<div class="container">
+
+<section class="hero">
+  <h1>장기렌트, 실제로 얼마가 절세될까?</h1>
+  <p>
+    과세표준과 렌트 조건만 선택하면
+    <b>현금지출 · 비용인정 · 예상 절세액 · 세후 실부담</b>을 비교합니다.
+  </p>
+</section>
+
+<div class="grid">
+
+<section class="card input">
+
+  <div class="title">
+    <div class="step">1</div>
+    <h2>조건 선택</h2>
+  </div>
+
+  <div class="section">
+
+    <div class="section-name">소득 조건</div>
+
+    <div class="fields">
+
+      <div class="field full">
+
+        <label>차량비 반영 전 예상 종합소득 과세표준</label>
+
+        <select id="taxBand">
+          <option value="0">1,400만원 이하</option>
+          <option value="1">1,400만원 초과 ~ 5,000만원 이하</option>
+          <option value="2">5,000만원 초과 ~ 8,800만원 이하</option>
+          <option value="3" selected>8,800만원 초과 ~ 1억5,000만원 이하</option>
+          <option value="4">1억5,000만원 초과 ~ 3억원 이하</option>
+          <option value="5">3억원 초과 ~ 5억원 이하</option>
+          <option value="6">5억원 초과 ~ 10억원 이하</option>
+          <option value="7">10억원 초과</option>
+        </select>
+
+        <div class="help">
+          정확한 금액 대신 해당 과세표준 구간의 대표값으로 계산합니다.
+        </div>
+
       </div>
-      <div class="badge">세법 기준 2026-08-16</div>
-    </header>
 
-    <div class="grid">
-      <section class="panel" aria-labelledby="input-title">
-        <h2 id="input-title">1. 조건 선택</h2>
-        <div class="controls">
-          <div class="field full">
-            <label for="taxBand">차량비 반영 전 예상 종합소득 과세표준</label>
-            <select id="taxBand">
-              <option value="0">1,400만원 이하</option>
-              <option value="1">1,400만원 초과 ~ 5,000만원 이하</option>
-              <option value="2">5,000만원 초과 ~ 8,800만원 이하</option>
-              <option value="3" selected>8,800만원 초과 ~ 1억5,000만원 이하</option>
-              <option value="4">1억5,000만원 초과 ~ 3억원 이하</option>
-              <option value="5">3억원 초과 ~ 5억원 이하</option>
-              <option value="6">5억원 초과 ~ 10억원 이하</option>
-              <option value="7">10억원 초과</option>
-            </select>
-            <div class="hint">구간 내 25%·50%·75% 지점을 사용해 절세액 범위를 계산합니다.</div>
-          </div>
-
-          <div class="field">
-            <label for="rentBand">월 장기렌트료 (실제 납부액)</label>
-            <select id="rentBand">
-              <option value="0">40 ~ 60만원</option>
-              <option value="1">60 ~ 80만원</option>
-              <option value="2" selected>80 ~ 100만원</option>
-              <option value="3">100 ~ 120만원</option>
-              <option value="4">120 ~ 150만원</option>
-              <option value="5">150 ~ 200만원</option>
-              <option value="6">200 ~ 250만원</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="otherBand">월 기타 차량비</label>
-            <select id="otherBand">
-              <option value="0">0 ~ 10만원</option>
-              <option value="1" selected>10 ~ 20만원</option>
-              <option value="2">20 ~ 30만원</option>
-              <option value="3">30 ~ 50만원</option>
-              <option value="4">50 ~ 80만원</option>
-            </select>
-            <div class="hint">유류비·통행료 등 차량 관련비용. 렌트료에 포함된 보험·정비비는 중복 입력하지 마세요.</div>
-          </div>
-
-          <div class="field">
-            <label for="months">이번 과세기간 사용개월</label>
-            <select id="months">
-              <option value="12" selected>12개월</option>
-              <option value="11">11개월</option>
-              <option value="10">10개월</option>
-              <option value="9">9개월</option>
-              <option value="8">8개월</option>
-              <option value="7">7개월</option>
-              <option value="6">6개월</option>
-              <option value="5">5개월</option>
-              <option value="4">4개월</option>
-              <option value="3">3개월</option>
-              <option value="2">2개월</option>
-              <option value="1">1개월</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="record">운행기록 / 실제 업무사용비율</label>
-            <select id="record">
-              <option value="none" selected>운행기록 미작성</option>
-              <option value="1">운행기록 작성 · 업무 100%</option>
-              <option value="0.8">운행기록 작성 · 업무 80%</option>
-              <option value="0.6">운행기록 작성 · 업무 60%</option>
-              <option value="0.4">운행기록 작성 · 업무 40%</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="carCount">사업자의 업무용 승용차 기준</label>
-            <select id="carCount">
-              <option value="first" selected>이 차량이 첫 1대</option>
-              <option value="extra">이미 1대 이상 있어 추가 차량</option>
-            </select>
-          </div>
-
-          <div class="field" id="insuranceWrap" style="display:none">
-            <label for="insurance">추가 차량의 업무전용자동차보험 요건</label>
-            <select id="insurance">
-              <option value="yes" selected>충족</option>
-              <option value="no">미충족 / 모름</option>
-            </select>
-            <div class="hint">장기렌트의 운전자 범위·보험 조건은 계약서 확인이 필요합니다.</div>
-          </div>
-
-          <div class="field full">
-            <label for="bookType">장부 기준</label>
-            <select id="bookType">
-              <option value="double" selected>복식부기의무자 기준으로 계산</option>
-              <option value="unknown">간편장부 대상 / 잘 모름</option>
-            </select>
-            <div class="hint">업무용승용차 특례는 소득세법상 복식부기의무자에게 적용되는 규정을 중심으로 구현했습니다.</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel" aria-labelledby="result-title">
-        <h2 id="result-title">2. 예상 결과</h2>
-        <div id="scriptStatus" class="callout warn">
-          <strong>계산 스크립트 확인 중</strong>
-          이 안내가 계속 보이면 현재 미리보기 환경에서 JavaScript가 차단된 것입니다. GitHub Pages 주소로 접속해 주세요.
-        </div>
-        <div class="stats" aria-live="polite">
-          <div class="stat">
-            <div class="k">선택기간 현금지출 · 대표값</div>
-            <div class="v" id="cashOut">-</div>
-            <div class="s" id="cashRange">-</div>
-          </div>
-          <div class="stat">
-            <div class="k">당해연도 필요경비 인정 · 대표값</div>
-            <div class="v" id="deductible">-</div>
-            <div class="s" id="deductibleSub">-</div>
-          </div>
-          <div class="stat">
-            <div class="k">종소세+지방소득세 절감 · 대표값</div>
-            <div class="v" id="taxSaving">-</div>
-            <div class="s" id="taxRange">-</div>
-          </div>
-          <div class="stat">
-            <div class="k">세후 실부담 · 대표값</div>
-            <div class="v" id="netCost">-</div>
-            <div class="s" id="savingRate">-</div>
-          </div>
-        </div>
-
-        <div id="mainCallout" class="callout good"></div>
-
-        <div class="meters">
-          <div class="meter-row">
-            <span>800만 한도 사용</span>
-            <div class="track"><div class="fill" id="depFill"></div></div>
-            <span class="right" id="depText">-</span>
-          </div>
-          <div class="meter-row">
-            <span>1,500만 기준 사용</span>
-            <div class="track"><div class="fill" id="recordFill"></div></div>
-            <span class="right" id="recordText">-</span>
-          </div>
-        </div>
-      </section>
     </div>
 
-    <section class="section panel">
-      <h2>3. 월 렌트료 구간별 비교</h2>
-      <p class="sub" style="margin-bottom:12px">나머지 조건은 위 선택값을 유지하고 렌트료만 바꿔 비교합니다. 과세표준은 선택 구간의 중앙값을 사용합니다.</p>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>월 렌트료 구간</th>
-              <th>대표 월 렌트료</th>
-              <th>선택기간 총지출</th>
-              <th>당해 비용인정</th>
-              <th>예상 절세</th>
-              <th>세후 실부담</th>
-            </tr>
-          </thead>
-          <tbody id="compareBody"></tbody>
-        </table>
-      </div>
-    </section>
+  </div>
 
-    <section class="section explain">
-      <div class="mini">
-        <h3>① 장기렌트 70% 규칙</h3>
-        <p>일반 자동차대여사업자로부터 임차한 승용차는 임차료의 <span class="formula">70% = 감가상각비 상당액</span>으로 보아 연 800만원 한도를 적용합니다.</p>
-      </div>
-      <div class="mini">
-        <h3>② 연 800만원 한도</h3>
-        <p>감가상각비 상당액 중 <span class="formula">연 800만원까지 당해연도 인정</span>하고 초과분은 이후 연도로 이월할 수 있습니다. 일부 월만 사용하면 월수 비례합니다.</p>
-      </div>
-      <div class="mini">
-        <h3>③ 운행기록 미작성</h3>
-        <p>관련비용이 <span class="formula">연 1,500만원 이하 → 업무사용비율 100%</span>로 봅니다. 초과하면 1,500만원 ÷ 관련비용의 비율을 적용합니다. 일부 월 사용 시 월수 비례합니다.</p>
-      </div>
-    </section>
 
-    <section class="notice">
-      <strong>계산 전제와 주의사항</strong>
-      <ul>
-        <li>2026년 8월 16일 현재 시행 중인 소득세법·소득세법 시행령/시행규칙 및 지방세법의 표준세율을 기준으로 한 <b>의사결정용 추정치</b>입니다.</li>
-        <li>과세표준을 정확히 입력하지 않으므로 절세액은 구간 안의 대표 지점을 이용해 범위로 추정합니다. 세액공제·감면·결손금·다른 소득·최저한세 등은 반영하지 않습니다.</li>
-        <li>일반적인 개별소비세 대상 승용차와 자동차대여사업자 장기렌트를 가정합니다. 화물차·9인승 이상 승합차·경차 또는 운수업 등은 결과가 달라질 수 있습니다.</li>
-        <li>일반 승용차의 임차·유지 관련 부가가치세 매입세액은 원칙적으로 공제하지 않는 경우를 가정합니다. 입력 렌트료는 실제 현금 납부액 기준으로 사용하세요.</li>
-        <li><b>2027년 법인전환 이후</b>에는 법인세율, 법인 업무용승용차 규정, 렌트계약 승계 여부를 별도로 검토해야 합니다. 이 페이지의 절세액은 개인사업자 구간에 대한 추정입니다.</li>
-        <li>추가 차량에서 업무전용자동차보험 요건을 충족하지 않으면 2026년 규정상 필요경비 인정에 큰 제한이 생길 수 있으므로 계약서와 운전자 범위를 반드시 확인하세요.</li>
-      </ul>
-    </section>
+  <div class="section">
 
-    <section class="sources">
-      <strong>법령 근거</strong><br>
-      · 소득세법 제55조(종합소득세율): <a href="https://www.law.go.kr/lsLinkCommonInfo.do?chrClsCd=010202&lsJoLnkSeq=1026637493" target="_blank" rel="noopener">국가법령정보센터</a><br>
-      · 소득세법 제33조의2(업무용승용차): <a href="https://www.law.go.kr/LSW/lsLinkCommonInfo.do?chrClsCd=010202&lsJoLnkSeq=1033245309" target="_blank" rel="noopener">국가법령정보센터</a><br>
-      · 소득세법 시행령 제78조의3(1,500만원·800만원 등): <a href="https://law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=1000316871" target="_blank" rel="noopener">국가법령정보센터</a><br>
-      · 소득세법 시행규칙 제42조(자동차대여사업자 임차료 70%): <a href="https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=00&joNo=0042&lsiSeq=284987&urlMode=lsScJoRltInfoR" target="_blank" rel="noopener">국가법령정보센터</a><br>
-      · 지방세법 제92조(개인지방소득세율): <a href="https://www.law.go.kr/lsLinkCommonInfo.do?chrClsCd=010202&lsJoLnkSeq=1029492657" target="_blank" rel="noopener">국가법령정보센터</a><br>
-      · 부가가치세법 제39조 제1항 제5호: <a href="https://law.go.kr/lsLinkCommonInfo.do?lsJoLnkSeq=1022765485" target="_blank" rel="noopener">국가법령정보센터</a>
-    </section>
+    <div class="section-name">렌트 조건</div>
 
-    <footer>본 계산기는 세무신고를 대신하지 않습니다. 실제 계약 전에는 세무대리인에
-  <script src="./app.js" defer></script>
- console.error(err);
-      }
-    }
-    boot();
-  </script>
+    <div class="fields">
+
+      <div class="field">
+
+        <label>월 장기렌트료</label>
+
+        <select id="rentBand">
+          <option value="0">40 ~ 60만원</option>
+          <option value="1">60 ~ 80만원</option>
+          <option value="2" selected>80 ~ 100만원</option>
+          <option value="3">100 ~ 120만원</option>
+          <option value="4">120 ~ 150만원</option>
+          <option value="5">150 ~ 200만원</option>
+          <option value="6">200 ~ 250만원</option>
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>월 기타 차량 관련비용</label>
+
+        <select id="otherBand">
+          <option value="0">0 ~ 10만원</option>
+          <option value="1" selected>10 ~ 20만원</option>
+          <option value="2">20 ~ 30만원</option>
+          <option value="3">30 ~ 50만원</option>
+          <option value="4">50 ~ 80만원</option>
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>이번 과세기간 사용개월</label>
+
+        <select id="months">
+          <option value="12" selected>12개월</option>
+          <option value="11">11개월</option>
+          <option value="10">10개월</option>
+          <option value="9">9개월</option>
+          <option value="8">8개월</option>
+          <option value="7">7개월</option>
+          <option value="6">6개월</option>
+          <option value="5">5개월</option>
+          <option value="4">4개월</option>
+          <option value="3">3개월</option>
+          <option value="2">2개월</option>
+          <option value="1">1개월</option>
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>운행기록 / 업무사용비율</label>
+
+        <select id="record">
+          <option value="none" selected>운행기록 미작성</option>
+          <option value="1">운행기록 작성 · 업무 100%</option>
+          <option value="0.8">운행기록 작성 · 업무 80%</option>
+          <option value="0.6">운행기록 작성 · 업무 60%</option>
+          <option value="0.4">운행기록 작성 · 업무 40%</option>
+        </select>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <div class="section-name">업무용 승용차 조건</div>
+
+    <div class="fields">
+
+      <div class="field">
+
+        <label>사업용 승용차 보유상태</label>
+
+        <select id="carCount">
+          <option value="first" selected>이 차량이 첫 1대</option>
+          <option value="extra">기존 차량이 있고 추가 차량</option>
+        </select>
+
+      </div>
+
+
+      <div class="field" id="insuranceArea" style="display:none">
+
+        <label>추가 차량 업무전용자동차보험</label>
+
+        <select id="insurance">
+          <option value="yes">요건 충족</option>
+          <option value="no">미충족 / 모름</option>
+        </select>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div id="dirty" class="dirty">
+    ● 조건이 변경되었습니다. <b>계산하기</b>를 눌러 다시 계산하세요.
+  </div>
+
+
+  <div class="buttons">
+
+    <button class="calculate" id="calculateBtn">
+      절세효과 계산하기
+    </button>
+
+    <button class="reset" id="resetBtn">
+      초기화
+    </button>
+
+  </div>
+
+</section>
+
+
+<section class="card result" id="resultCard">
+
+  <div class="result-head">
+
+    <div class="title" style="margin:0">
+
+      <div class="step">2</div>
+
+      <h2>계산 결과</h2>
+
+    </div>
+
+    <div class="status" id="status">
+      아직 계산 전
+    </div>
+
+  </div>
+
+
+  <div class="placeholder" id="placeholder">
+
+    <div>
+
+      <div class="placeholder-icon">₩</div>
+
+      <h3>조건을 선택해 주세요</h3>
+
+      <p>
+        왼쪽의 <b>절세효과 계산하기</b> 버튼을 누르면 결과가 표시됩니다.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="results" id="results">
+
+    <div class="main-saving">
+
+      <small>예상 세금 절감액</small>
+
+      <strong id="taxSaving">-</strong>
+
+      <span id="taxRange"></span>
+
+    </div>
+
+
+    <div class="kpis">
+
+      <div class="kpi">
+
+        <small>총 현금지출</small>
+
+        <strong id="cash">-</strong>
+
+        <p>렌트료 + 기타 차량비</p>
+
+      </div>
+
+
+      <div class="kpi">
+
+        <small>당해 비용 인정</small>
+
+        <strong id="deductible">-</strong>
+
+        <p id="deductibleRate"></p>
+
+      </div>
+
+
+      <div class="kpi green">
+
+        <small>세후 실부담</small>
+
+        <strong id="net">-</strong>
+
+        <p id="savingRate"></p>
+
+      </div>
+
+    </div>
+
+
+    <div class="verdict good" id="verdict"></div>
+
+
+    <div class="detail">
+
+      <div class="detail-row">
+        <span>적용 업무사용비율</span>
+        <b id="businessRate"></b>
+      </div>
+
+      <div class="detail-row">
+        <span>감가상각비 상당액</span>
+        <b id="dep"></b>
+      </div>
+
+      <div class="detail-row">
+        <span>당해 감가상각비 상당액 인정</span>
+        <b id="depAllowed"></b>
+      </div>
+
+      <div class="detail-row">
+        <span>차기 이월 예상액</span>
+        <b id="depCarry"></b>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</div>
+
+
+<section class="card compare" id="compareSection" style="display:none">
+
+  <h2>월 렌트료별 세후 부담 비교</h2>
+
+  <p>
+    다른 조건은 동일하게 두고 월 렌트료만 변경한 비교입니다.
+  </p>
+
+  <div class="table">
+
+    <table>
+
+      <thead>
+
+      <tr>
+        <th>월 렌트료</th>
+        <th>대표값</th>
+        <th>현금지출</th>
+        <th>비용인정</th>
+        <th>절세</th>
+        <th>세후 실부담</th>
+      </tr>
+
+      </thead>
+
+      <tbody id="compareBody"></tbody>
+
+    </table>
+
+  </div>
+
+</section>
+
+
+<div class="rules">
+
+  <div class="rule">
+
+    <strong>RULE 01</strong>
+
+    <h3>장기렌트 70%</h3>
+
+    <p>
+      일반 자동차대여사업자 장기렌트는 렌트료의 70%를
+      감가상각비 상당액으로 봅니다.
+    </p>
+
+  </div>
+
+
+  <div class="rule">
+
+    <strong>RULE 02</strong>
+
+    <h3>연 800만원 한도</h3>
+
+    <p>
+      감가상각비 상당액은 연 800만원 한도로
+      당해 비용 처리하고 초과분은 이월합니다.
+    </p>
+
+  </div>
+
+
+  <div class="rule">
+
+    <strong>RULE 03</strong>
+
+    <h3>연 1,500만원 기준</h3>
+
+    <p>
+      운행기록 미작성 시 차량 관련비용이 연 1,500만원 이하라면
+      업무사용비율을 100%로 봅니다.
+    </p>
+
+  </div>
+
+</div>
+
+
+<div class="disclaimer">
+  2026년 8월 기준 개인사업자 복식부기의무자의 일반적인 업무용 승용차
+  장기렌트를 가정한 추정 계산입니다.
+  실제 신고 시 소득구조, 보험요건, 차량종류, 세액공제·감면 등에 따라 달라질 수 있습니다.
+</div>
+
+</div>
+
+
+<script>
+
+const TAX_BANDS=[
+[350,700,1050],
+[2300,3200,4100],
+[5950,6900,7850],
+[10350,11900,13450],
+[18750,22500,26250],
+[35000,40000,45000],
+[62500,75000,87500],
+[105000,125000,150000]
+];
+
+const RENT=[
+[40,60],
+[60,80],
+[80,100],
+[100,120],
+[120,150],
+[150,200],
+[200,250]
+];
+
+const OTHER=[
+[0,10],
+[10,20],
+[20,30],
+[30,50],
+[50,80]
+];
+
+
+function $(id){
+return document.getElementById(id);
+}
+
+
+function midpoint(a){
+return (a[0]+a[1])/2;
+}
+
+
+function money(v){
+
+v=Math.round(v);
+
+if(v>=10000){
+
+return (v/10000).toLocaleString("ko-KR",{
+maximumFractionDigits:2
+})+"억원";
+
+}
+
+return v.toLocaleString("ko-KR")+"만원";
+
+}
+
+
+function pct(v){
+
+return (v*100).toFixed(1)+"%";
+
+}
+
+
+/* 종합소득세 */
+
+function incomeTax(x){
+
+if(x<=1400)
+return x*.06;
+
+if(x<=5000)
+return 84+(x-1400)*.15;
+
+if(x<=8800)
+return 624+(x-5000)*.24;
+
+if(x<=15000)
+return 1536+(x-8800)*.35;
+
+if(x<=30000)
+return 3706+(x-15000)*.38;
+
+if(x<=50000)
+return 9406+(x-30000)*.40;
+
+if(x<=100000)
+return 17406+(x-50000)*.42;
+
+return 38406+(x-100000)*.45;
+
+}
+
+
+/* 개인지방소득세 */
+
+function localTax(x){
+
+if(x<=1400)
+return x*.006;
+
+if(x<=5000)
+return 8.4+(x-1400)*.015;
+
+if(x<=8800)
+return 62.4+(x-5000)*.024;
+
+if(x<=15000)
+return 153.6+(x-8800)*.035;
+
+if(x<=30000)
+return 370.6+(x-15000)*.038;
+
+if(x<=50000)
+return 940.6+(x-30000)*.040;
+
+if(x<=100000)
+return 1740.6+(x-50000)*.042;
+
+return 3840.6+(x-100000)*.045;
+
+}
+
+
+function totalTax(x){
+
+return incomeTax(x)+localTax(x);
+
+}
+
+
+function taxSaving(taxBase,deductible){
+
+return Math.max(
+0,
+totalTax(taxBase)
+-
+totalTax(Math.max(0,taxBase-deductible))
+);
+
+}
+
+
+function vehicleCalc(rentMonthly,otherMonthly,months,record,extra,insurance){
+
+const rent=rentMonthly*months;
+
+const other=otherMonthly*months;
+
+const total=rent+other;
+
+
+/* 일부기간은 월수 비례 */
+
+const recordLimit=1500*months/12;
+
+const depreciationLimit=800*months/12;
+
+
+/* 추가 차량 보험 미충족 단순화 */
+
+if(extra && !insurance){
+
+return{
+total,
+businessRate:0,
+dep:0,
+depAllowed:0,
+depCarry:0,
+deductible:0,
+blocked:true
+};
+
+}
+
+
+let businessRate;
+
+
+if(record==="none"){
+
+businessRate=
+total<=recordLimit
+? 1
+: recordLimit/total;
+
+}
+
+else{
+
+businessRate=Number(record);
+
+}
+
+
+const businessExpense=
+total*businessRate;
+
+
+/* 일반 자동차대여사업자 렌트료의 70% */
+
+const dep=
+rent*.70*businessRate;
+
+
+const depAllowed=
+Math.min(dep,depreciationLimit);
+
+
+const depCarry=
+Math.max(0,dep-depreciationLimit);
+
+
+/*
+업무사용금액 중 감가상각비 상당액 초과분 제외
+*/
+
+const deductible=
+Math.max(
+0,
+businessExpense-depCarry
+);
+
+
+return{
+total,
+recordLimit,
+depreciationLimit,
+businessRate,
+dep,
+depAllowed,
+depCarry,
+deductible,
+blocked:false
+};
+
+}
+
+
+function getState(){
+
+return{
+
+taxBand:Number($("taxBand").value),
+
+rentBand:Number($("rentBand").value),
+
+otherBand:Number($("otherBand").value),
+
+months:Number($("months").value),
+
+record:$("record").value,
+
+extra:$("carCount").value==="extra",
+
+insurance:$("insurance").value==="yes"
+
+};
+
+}
+
+
+function calculate(){
+
+const s=getState();
+
+const rent=midpoint(RENT[s.rentBand]);
+
+const other=midpoint(OTHER[s.otherBand]);
+
+const result=
+vehicleCalc(
+rent,
+other,
+s.months,
+s.record,
+s.extra,
+s.insurance
+);
+
+
+const bases=TAX_BANDS[s.taxBand];
+
+const base=bases[1];
+
+
+const saving=
+taxSaving(base,result.deductible);
+
+
+const net=
+result.total-saving;
+
+
+/* 절세 범위 */
+
+const savings=
+bases.map(b=>taxSaving(b,result.deductible));
+
+const minSaving=Math.min(...savings);
+
+const maxSaving=Math.max(...savings);
+
+
+$("taxSaving").textContent=money(saving);
+
+$("taxRange").textContent=
+"과세표준 구간 내 예상 "
++money(minSaving)
++" ~ "
++money(maxSaving);
+
+
+$("cash").textContent=
+money(result.total);
+
+
+$("deductible").textContent=
+money(result.deductible);
+
+
+$("deductibleRate").textContent=
+"총지출의 "
++pct(
+result.total
+?result.deductible/result.total
+:0
+);
+
+
+$("net").textContent=
+money(net);
+
+
+$("savingRate").textContent=
+"현금지출 대비 세금 감소 "
++pct(
+result.total
+?saving/result.total
+:0
+);
+
+
+$("businessRate").textContent=
+pct(result.businessRate);
+
+
+$("dep").textContent=
+money(result.dep);
+
+
+$("depAllowed").textContent=
+money(result.depAllowed);
+
+
+$("depCarry").textContent=
+money(result.depCarry);
+
+
+
+const verdict=$("verdict");
+
+
+if(result.blocked){
+
+verdict.className=
+"verdict danger";
+
+verdict.innerHTML=
+"<strong>추가 차량의 보험 요건 확인이 필요합니다.</strong>"
++"현재 계산에서는 업무전용자동차보험 요건 미충족으로 비용 인정액을 0원으로 표시했습니다.";
+
+}
+
+else if(result.depCarry>0){
+
+verdict.className=
+"verdict warn";
+
+verdict.innerHTML=
+"<strong>감가상각비 상당액 한도를 초과합니다.</strong>"
++money(result.depCarry)
++"은 당해연도 비용 처리되지 않고 이후 연도로 이월되는 것으로 계산했습니다.";
+
+}
+
+else if(
+s.record==="none"
+&&
+result.total>result.recordLimit
+){
+
+verdict.className=
+"verdict warn";
+
+verdict.innerHTML=
+"<strong>운행기록 작성 여부가 중요해지는 구간입니다.</strong>"
++"운행기록 미작성으로 업무사용비율이 "
++pct(result.businessRate)
++"로 제한됩니다.";
+
+}
+
+else{
+
+verdict.className=
+"verdict good";
+
+verdict.innerHTML=
+"<strong>주요 당해연도 한도 안쪽입니다.</strong>"
++"선택한 조건에서는 운행기록 미작성 기준과 감가상각비 상당액 한도 내에서 계산됩니다.";
+
+}
+
+
+$("placeholder").style.display="none";
+
+$("results").classList.add("show");
+
+$("compareSection").style.display="block";
+
+$("dirty").classList.remove("show");
+
+$("status").textContent=
+"계산 완료";
+
+
+renderComparison(s);
+
+
+if(window.innerWidth<880){
+
+$("resultCard").scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
+
+}
+
+}
+
+
+function renderComparison(s){
+
+const tbody=$("compareBody");
+
+tbody.innerHTML="";
+
+
+RENT.forEach((band,index)=>{
+
+const rent=midpoint(band);
+
+const other=midpoint(OTHER[s.otherBand]);
+
+
+const r=
+vehicleCalc(
+rent,
+other,
+s.months,
+s.record,
+s.extra,
+s.insurance
+);
+
+
+const base=
+TAX_BANDS[s.taxBand][1];
+
+
+const saving=
+taxSaving(
+base,
+r.deductible
+);
+
+
+const tr=
+document.createElement("tr");
+
+
+if(index===s.rentBand){
+
+tr.className=
+"active-row";
+
+}
+
+
+tr.innerHTML=
+"<td>"
++band[0]+" ~ "+band[1]+"만원"
++(index===s.rentBand
+?' <span class=\"badge\">현재 선택</span>'
+:'')
++"</td>"
++"<td>"+money(rent)+"</td>"
++"<td>"+money(r.total)+"</td>"
++"<td>"+money(r.deductible)+"</td>"
++"<td>"+money(saving)+"</td>"
++"<td><b>"+money(r.total-saving)+"</b></td>";
+
+
+tbody.appendChild(tr);
+
+});
+
+}
+
+
+function changed(){
+
+$("dirty").classList.add("show");
+
+if($("results").classList.contains("show")){
+
+$("status").textContent=
+"조건 변경됨 · 재계산 필요";
+
+}
+
+}
+
+
+function toggleInsurance(){
+
+$("insuranceArea").style.display=
+$("carCount").value==="extra"
+?"flex"
+:"none";
+
+}
+
+
+document
+.querySelectorAll("select")
+.forEach(select=>{
+
+select.addEventListener(
+"change",
+()=>{
+
+toggleInsurance();
+
+changed();
+
+}
+);
+
+});
+
+
+$("calculateBtn")
+.addEventListener(
+"click",
+calculate
+);
+
+
+$("resetBtn")
+.addEventListener(
+"click",
+()=>location.reload()
+);
+
+
+toggleInsurance();
+
+</script>
+
 </body>
 </html>
